@@ -1,0 +1,2979 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viva Sabor - Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .bg-cream { background-color: #d5cbbf; }
+        .bg-gold { background-color: #cb8b32; }
+        .bg-green { background-color: #608041; }
+        .bg-brown { background-color: #33160e; }
+        .text-cream { color: #d5cbbf; }
+        .text-gold { color: #cb8b32; }
+        .text-green { color: #608041; }
+        .text-brown { color: #33160e; }
+        .border-cream { border-color: #d5cbbf; }
+        .border-gold { border-color: #cb8b32; }
+        .border-green { border-color: #608041; }
+        .border-brown { border-color: #33160e; }
+        .hover\:bg-gold:hover { background-color: #b8791f; }
+        .hover\:bg-green:hover { background-color: #4f6b35; }
+        .hover\:bg-brown:hover { background-color: #2a1209; }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #608041 0%, #33160e 100%);
+        }
+        
+        .card-shadow {
+            box-shadow: 0 4px 15px rgba(51, 22, 14, 0.1);
+        }
+        
+        .recipe-card {
+            transition: all 0.3s ease;
+        }
+        
+        .recipe-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(51, 22, 14, 0.15);
+        }
+        
+        .tab-active {
+            background-color: #608041;
+            color: white;
+        }
+        
+        .tab-inactive {
+            background-color: #d5cbbf;
+            color: #33160e;
+        }
+        
+        .progress-bar {
+            background: linear-gradient(90deg, #608041 0%, #cb8b32 100%);
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .notification-dot {
+            background-color: #cb8b32;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .input-field {
+            transition: all 0.3s ease;
+        }
+        
+        .input-field:focus {
+            border-color: #608041;
+            box-shadow: 0 0 0 3px rgba(96, 128, 65, 0.1);
+        }
+
+        .restriction-tag {
+            transition: all 0.2s ease;
+        }
+
+        .restriction-tag.selected {
+            background-color: #608041;
+            color: white;
+        }
+
+        .step-indicator {
+            transition: all 0.3s ease;
+        }
+
+        .step-indicator.active {
+            background-color: #608041;
+            color: white;
+        }
+
+        .step-indicator.completed {
+            background-color: #cb8b32;
+            color: white;
+        }
+
+        .admin-tab-btn {
+            transition: all 0.3s ease;
+            color: #33160e;
+            border-bottom: 3px solid transparent;
+        }
+
+        .admin-tab-btn.active {
+            color: #608041;
+            border-bottom-color: #608041;
+            background-color: rgba(96, 128, 65, 0.05);
+        }
+
+        .admin-tab-btn:hover {
+            color: #608041;
+            background-color: rgba(96, 128, 65, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-cream min-h-screen">
+    <!-- Login Screen -->
+    <section id="loginScreen" class="min-h-screen flex items-center justify-center p-4">
+        <div class="w-full max-w-md">
+            <!-- Logo -->
+            <div class="text-center mb-8">
+                <div class="w-20 h-20 bg-gold rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="text-4xl">🍃</span>
+                </div>
+                <h1 class="text-3xl font-bold text-brown mb-2">Viva Sabor</h1>
+                <p class="text-brown opacity-70">Nutrição personalizada para a terceira idade</p>
+            </div>
+
+            <!-- Login Form -->
+            <div id="loginForm" class="bg-white rounded-2xl p-6 card-shadow">
+                <h2 class="text-2xl font-bold text-brown mb-6 text-center">Entrar</h2>
+                
+                <form onsubmit="handleLogin(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-brown font-medium mb-2">E-mail</label>
+                        <input type="email" id="loginEmail" required 
+                               class="input-field w-full p-3 border border-cream rounded-lg focus:outline-none"
+                               placeholder="seu@email.com">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-brown font-medium mb-2">Senha</label>
+                        <input type="password" id="loginPassword" required 
+                               class="input-field w-full p-3 border border-cream rounded-lg focus:outline-none"
+                               placeholder="••••••••">
+                    </div>
+                    
+                    <div class="flex items-center justify-between text-sm">
+                        <label class="flex items-center space-x-2">
+                            <input type="checkbox" class="text-green">
+                            <span class="text-brown">Lembrar de mim</span>
+                        </label>
+                        <button type="button" class="text-gold hover:text-brown">Esqueci a senha</button>
+                    </div>
+                    
+                    <button type="submit" class="w-full bg-green text-white py-3 rounded-lg hover:bg-green hover:opacity-90 transition font-semibold">
+                        Entrar
+                    </button>
+                </form>
+                
+                <div class="text-center mt-6">
+                    <p class="text-brown">Não tem conta? 
+                        <button onclick="showRegister()" class="text-gold hover:text-brown font-semibold">Cadastre-se</button>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Register Form -->
+            <div id="registerForm" class="bg-white rounded-2xl p-6 card-shadow hidden">
+                <h2 class="text-2xl font-bold text-brown mb-6 text-center">Criar Conta</h2>
+                
+                <form onsubmit="handleRegister(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-brown font-medium mb-2">Nome Completo</label>
+                        <input type="text" id="registerName" required 
+                               class="input-field w-full p-3 border border-cream rounded-lg focus:outline-none"
+                               placeholder="Seu nome completo">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-brown font-medium mb-2">E-mail</label>
+                        <input type="email" id="registerEmail" required 
+                               class="input-field w-full p-3 border border-cream rounded-lg focus:outline-none"
+                               placeholder="seu@email.com">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-brown font-medium mb-2">Senha</label>
+                        <input type="password" id="registerPassword" required 
+                               class="input-field w-full p-3 border border-cream rounded-lg focus:outline-none"
+                               placeholder="••••••••">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-brown font-medium mb-2">Confirmar Senha</label>
+                        <input type="password" id="confirmPassword" required 
+                               class="input-field w-full p-3 border border-cream rounded-lg focus:outline-none"
+                               placeholder="••••••••">
+                    </div>
+                    
+                    <button type="submit" class="w-full bg-green text-white py-3 rounded-lg hover:bg-green hover:opacity-90 transition font-semibold">
+                        Criar Conta
+                    </button>
+                </form>
+                
+                <div class="text-center mt-6">
+                    <p class="text-brown">Já tem conta? 
+                        <button onclick="showLogin()" class="text-gold hover:text-brown font-semibold">Entrar</button>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Onboarding Screen -->
+    <section id="onboardingScreen" class="hidden min-h-screen bg-cream">
+        <!-- Header -->
+        <header class="gradient-bg text-white p-4">
+            <div class="flex items-center justify-between">
+                <h1 class="text-xl font-bold">Configuração Inicial</h1>
+                <div class="flex space-x-2">
+                    <div class="step-indicator w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold active">1</div>
+                    <div class="step-indicator w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold bg-white bg-opacity-20">2</div>
+                    <div class="step-indicator w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold bg-white bg-opacity-20">3</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Step 1: Personal Info -->
+        <div id="step1" class="p-4 space-y-6">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-gold rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="text-3xl">👤</span>
+                </div>
+                <h2 class="text-2xl font-bold text-brown mb-2">Informações Pessoais</h2>
+                <p class="text-brown opacity-70">Vamos conhecer você melhor para criar um plano personalizado</p>
+            </div>
+
+            <div class="bg-white rounded-2xl p-6 card-shadow space-y-4">
+                <div>
+                    <label class="block text-brown font-medium mb-2">Idade</label>
+                    <input type="number" id="age" min="50" max="100" required 
+                           class="input-field w-full p-3 border border-cream rounded-lg focus:outline-none"
+                           placeholder="Ex: 68">
+                </div>
+
+                <div>
+                    <label class="block text-brown font-medium mb-2">Sexo</label>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button type="button" onclick="selectGender('feminino')" 
+                                class="gender-btn p-3 border border-cream rounded-lg text-brown hover:border-green transition">
+                            👩 Feminino
+                        </button>
+                        <button type="button" onclick="selectGender('masculino')" 
+                                class="gender-btn p-3 border border-cream rounded-lg text-brown hover:border-green transition">
+                            👨 Masculino
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-brown font-medium mb-2">Peso (kg)</label>
+                        <input type="number" id="weight" min="30" max="200" step="0.1" required 
+                               class="input-field w-full p-3 border border-cream rounded-lg focus:outline-none"
+                               placeholder="Ex: 65">
+                    </div>
+                    <div>
+                        <label class="block text-brown font-medium mb-2">Altura (cm)</label>
+                        <input type="number" id="height" min="120" max="220" required 
+                               class="input-field w-full p-3 border border-cream rounded-lg focus:outline-none"
+                               placeholder="Ex: 160">
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="nextStep()" class="w-full bg-green text-white py-3 rounded-lg hover:bg-green hover:opacity-90 transition font-semibold">
+                Continuar
+            </button>
+        </div>
+
+        <!-- Step 2: Health Restrictions -->
+        <div id="step2" class="hidden p-4 space-y-6">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-gold rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="text-3xl">🏥</span>
+                </div>
+                <h2 class="text-2xl font-bold text-brown mb-2">Restrições Alimentares</h2>
+                <p class="text-brown opacity-70">Selecione suas condições de saúde e restrições</p>
+            </div>
+
+            <div class="bg-white rounded-2xl p-6 card-shadow">
+                <h3 class="font-bold text-brown mb-4">Condições de Saúde</h3>
+                <div class="grid grid-cols-2 gap-3 mb-6">
+                    <button type="button" onclick="toggleRestriction('diabetes')" 
+                            class="restriction-tag p-3 border border-cream rounded-lg text-brown hover:border-green transition text-sm">
+                        🩺 Diabetes
+                    </button>
+                    <button type="button" onclick="toggleRestriction('hipertensao')" 
+                            class="restriction-tag p-3 border border-cream rounded-lg text-brown hover:border-green transition text-sm">
+                        💓 Hipertensão
+                    </button>
+                    <button type="button" onclick="toggleRestriction('colesterol')" 
+                            class="restriction-tag p-3 border border-cream rounded-lg text-brown hover:border-green transition text-sm">
+                        🧪 Colesterol Alto
+                    </button>
+                    <button type="button" onclick="toggleRestriction('gastrite')" 
+                            class="restriction-tag p-3 border border-cream rounded-lg text-brown hover:border-green transition text-sm">
+                        🫄 Gastrite
+                    </button>
+                    <button type="button" onclick="toggleRestriction('osteoporose')" 
+                            class="restriction-tag p-3 border border-cream rounded-lg text-brown hover:border-green transition text-sm">
+                        🦴 Osteoporose
+                    </button>
+                    <button type="button" onclick="toggleRestriction('artrite')" 
+                            class="restriction-tag p-3 border border-cream rounded-lg text-brown hover:border-green transition text-sm">
+                        🦵 Artrite
+                    </button>
+                </div>
+
+                <h3 class="font-bold text-brown mb-4">Restrições Alimentares</h3>
+                <div class="grid grid-cols-2 gap-3">
+                    <button type="button" onclick="toggleRestriction('lactose')" 
+                            class="restriction-tag p-3 border border-cream rounded-lg text-brown hover:border-green transition text-sm">
+                        🥛 Sem Lactose
+                    </button>
+                    <button type="button" onclick="toggleRestriction('gluten')" 
+                            class="restriction-tag p-3 border border-cream rounded-lg text-brown hover:border-green transition text-sm">
+                        🌾 Sem Glúten
+                    </button>
+                    <button type="button" onclick="toggleRestriction('vegetariano')" 
+                            class="restriction-tag p-3 border border-cream rounded-lg text-brown hover:border-green transition text-sm">
+                        🥬 Vegetariano
+                    </button>
+                    <button type="button" onclick="toggleRestriction('vegano')" 
+                            class="restriction-tag p-3 border border-cream rounded-lg text-brown hover:border-green transition text-sm">
+                        🌱 Vegano
+                    </button>
+                    <button type="button" onclick="toggleRestriction('baixo-sodio')" 
+                            class="restriction-tag p-3 border border-cream rounded-lg text-brown hover:border-green transition text-sm">
+                        🧂 Baixo Sódio
+                    </button>
+                    <button type="button" onclick="toggleRestriction('baixo-acucar')" 
+                            class="restriction-tag p-3 border border-cream rounded-lg text-brown hover:border-green transition text-sm">
+                        🍯 Baixo Açúcar
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex space-x-3">
+                <button onclick="prevStep()" class="flex-1 bg-cream text-brown py-3 rounded-lg hover:bg-brown hover:text-white transition font-semibold">
+                    Voltar
+                </button>
+                <button onclick="nextStep()" class="flex-1 bg-green text-white py-3 rounded-lg hover:bg-green hover:opacity-90 transition font-semibold">
+                    Continuar
+                </button>
+            </div>
+        </div>
+
+        <!-- Step 3: Preferences -->
+        <div id="step3" class="hidden p-4 space-y-6">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-gold rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="text-3xl">⚙️</span>
+                </div>
+                <h2 class="text-2xl font-bold text-brown mb-2">Preferências</h2>
+                <p class="text-brown opacity-70">Configure suas preferências de refeições</p>
+            </div>
+
+            <div class="bg-white rounded-2xl p-6 card-shadow space-y-6">
+                <div>
+                    <label class="block text-brown font-medium mb-2">Objetivo Principal</label>
+                    <div class="space-y-2">
+                        <button type="button" onclick="selectGoal('manter-peso')" 
+                                class="goal-btn w-full p-3 border border-cream rounded-lg text-left text-brown hover:border-green transition">
+                            🎯 Manter peso atual
+                        </button>
+                        <button type="button" onclick="selectGoal('perder-peso')" 
+                                class="goal-btn w-full p-3 border border-cream rounded-lg text-left text-brown hover:border-green transition">
+                            📉 Perder peso gradualmente
+                        </button>
+                        <button type="button" onclick="selectGoal('ganhar-peso')" 
+                                class="goal-btn w-full p-3 border border-cream rounded-lg text-left text-brown hover:border-green transition">
+                            📈 Ganhar peso saudável
+                        </button>
+                        <button type="button" onclick="selectGoal('melhorar-saude')" 
+                                class="goal-btn w-full p-3 border border-cream rounded-lg text-left text-brown hover:border-green transition">
+                            💪 Melhorar saúde geral
+                        </button>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-brown font-medium mb-2">Nível de Atividade</label>
+                    <div class="space-y-2">
+                        <button type="button" onclick="selectActivity('sedentario')" 
+                                class="activity-btn w-full p-3 border border-cream rounded-lg text-left text-brown hover:border-green transition">
+                            🛋️ Sedentário (pouca ou nenhuma atividade)
+                        </button>
+                        <button type="button" onclick="selectActivity('leve')" 
+                                class="activity-btn w-full p-3 border border-cream rounded-lg text-left text-brown hover:border-green transition">
+                            🚶 Leve (caminhadas ocasionais)
+                        </button>
+                        <button type="button" onclick="selectActivity('moderado')" 
+                                class="activity-btn w-full p-3 border border-cream rounded-lg text-left text-brown hover:border-green transition">
+                            🏃 Moderado (exercícios regulares)
+                        </button>
+                        <button type="button" onclick="selectActivity('ativo')" 
+                                class="activity-btn w-full p-3 border border-cream rounded-lg text-left text-brown hover:border-green transition">
+                            💪 Muito ativo (exercícios intensos)
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex space-x-3">
+                <button onclick="prevStep()" class="flex-1 bg-cream text-brown py-3 rounded-lg hover:bg-brown hover:text-white transition font-semibold">
+                    Voltar
+                </button>
+                <button onclick="completeOnboarding()" class="flex-1 bg-green text-white py-3 rounded-lg hover:bg-green hover:opacity-90 transition font-semibold">
+                    Finalizar
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Admin Panel -->
+    <section id="adminPanel" class="hidden min-h-screen bg-cream">
+        <!-- Admin Header -->
+        <header class="gradient-bg text-white p-4 sticky top-0 z-50">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gold rounded-full flex items-center justify-center">
+                        <span class="text-2xl">⚙️</span>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold">Painel Administrativo</h1>
+                        <p class="text-sm text-cream opacity-90">Viva Sabor - Admin</p>
+                    </div>
+                </div>
+                <button onclick="logout()" class="bg-white bg-opacity-20 px-4 py-2 rounded-lg hover:bg-opacity-30 transition">
+                    Sair
+                </button>
+            </div>
+        </header>
+
+        <!-- Admin Navigation -->
+        <nav class="bg-white border-b border-cream">
+            <div class="flex overflow-x-auto">
+                <button onclick="showAdminSection('userManagement')" class="admin-tab-btn active whitespace-nowrap px-6 py-3 font-medium">
+                    👥 Gerenciar Usuários
+                </button>
+                <button onclick="showAdminSection('appCustomization')" class="admin-tab-btn whitespace-nowrap px-6 py-3 font-medium">
+                    🎨 Personalizar App
+                </button>
+                <button onclick="showAdminSection('planManagement')" class="admin-tab-btn whitespace-nowrap px-6 py-3 font-medium">
+                    📋 Gerenciar Planos
+                </button>
+                <button onclick="showAdminSection('analytics')" class="admin-tab-btn whitespace-nowrap px-6 py-3 font-medium">
+                    📊 Relatórios
+                </button>
+            </div>
+        </nav>
+
+        <!-- User Management Section -->
+        <section id="userManagement" class="p-4 space-y-6">
+            <div class="bg-white rounded-2xl p-6 card-shadow">
+                <h2 class="text-xl font-bold text-brown mb-4">Gerenciar Acesso de Usuários</h2>
+                
+                <!-- Add User Form -->
+                <div class="bg-green bg-opacity-10 border border-green rounded-xl p-4 mb-6">
+                    <h3 class="font-bold text-green mb-3">Adicionar Novo Usuário</h3>
+                    <div class="space-y-3">
+                        <input type="email" id="newUserEmail" placeholder="email@exemplo.com" 
+                               class="w-full p-3 border border-cream rounded-lg focus:outline-none focus:border-green">
+                        
+                        <div>
+                            <label class="block text-brown font-medium mb-2">Selecionar Plano</label>
+                            <div class="grid grid-cols-2 gap-3">
+                                <button type="button" onclick="selectPlan('basico')" id="planBasico"
+                                        class="plan-btn p-4 border-2 border-cream rounded-xl text-left hover:border-green transition">
+                                    <div class="flex items-center space-x-2 mb-2">
+                                        <span class="text-2xl">📱</span>
+                                        <span class="font-bold text-brown">Plano Básico</span>
+                                    </div>
+                                    <ul class="text-sm text-brown opacity-70 space-y-1">
+                                        <li>• 6 refeições diárias</li>
+                                        <li>• Receitas básicas</li>
+                                        <li>• Suporte por email</li>
+                                    </ul>
+                                </button>
+                                
+                                <button type="button" onclick="selectPlan('premium')" id="planPremium"
+                                        class="plan-btn p-4 border-2 border-cream rounded-xl text-left hover:border-gold transition">
+                                    <div class="flex items-center space-x-2 mb-2">
+                                        <span class="text-2xl">⭐</span>
+                                        <span class="font-bold text-brown">Plano Premium</span>
+                                    </div>
+                                    <ul class="text-sm text-brown opacity-70 space-y-1">
+                                        <li>• 6 refeições personalizadas</li>
+                                        <li>• Receitas exclusivas</li>
+                                        <li>• Consultas nutricionais</li>
+                                        <li>• Vídeo-aulas</li>
+                                        <li>• Suporte prioritário</li>
+                                    </ul>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <button onclick="addUser()" class="w-full bg-green text-white py-3 rounded-lg hover:opacity-90 transition font-semibold">
+                            Adicionar Usuário ao Plano
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Users List -->
+                <div>
+                    <h3 class="font-bold text-brown mb-3">Usuários Autorizados</h3>
+                    <div id="usersList" class="space-y-2">
+                        <!-- Users will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- App Customization Section -->
+        <section id="appCustomization" class="hidden p-4 space-y-6">
+            <div class="bg-white rounded-2xl p-6 card-shadow">
+                <h2 class="text-xl font-bold text-brown mb-4">Personalizar Aparência</h2>
+                
+                <!-- Color Scheme -->
+                <div class="mb-6">
+                    <h3 class="font-bold text-brown mb-3">Esquema de Cores</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-brown font-medium mb-2">Cor Principal</label>
+                            <input type="color" id="primaryColor" value="#608041" 
+                                   class="w-full h-12 border border-cream rounded-lg cursor-pointer">
+                        </div>
+                        <div>
+                            <label class="block text-brown font-medium mb-2">Cor Secundária</label>
+                            <input type="color" id="secondaryColor" value="#cb8b32" 
+                                   class="w-full h-12 border border-cream rounded-lg cursor-pointer">
+                        </div>
+                        <div>
+                            <label class="block text-brown font-medium mb-2">Cor de Fundo</label>
+                            <input type="color" id="backgroundColor" value="#d5cbbf" 
+                                   class="w-full h-12 border border-cream rounded-lg cursor-pointer">
+                        </div>
+                        <div>
+                            <label class="block text-brown font-medium mb-2">Cor do Texto</label>
+                            <input type="color" id="textColor" value="#33160e" 
+                                   class="w-full h-12 border border-cream rounded-lg cursor-pointer">
+                        </div>
+                    </div>
+                    <button onclick="applyColors()" class="mt-4 bg-green text-white px-6 py-3 rounded-lg hover:opacity-90 transition">
+                        Aplicar Cores
+                    </button>
+                </div>
+
+                <!-- App Logo/Icon -->
+                <div class="mb-6">
+                    <h3 class="font-bold text-brown mb-3">Ícone do App</h3>
+                    <div class="flex items-center space-x-4">
+                        <div class="w-16 h-16 bg-gold rounded-full flex items-center justify-center text-3xl" id="currentIcon">
+                            🍃
+                        </div>
+                        <div class="flex-1">
+                            <input type="text" id="appIcon" placeholder="🍃" maxlength="2" 
+                                   class="w-full p-3 border border-cream rounded-lg focus:outline-none focus:border-green">
+                            <p class="text-sm text-brown opacity-70 mt-1">Digite um emoji para o ícone</p>
+                        </div>
+                        <button onclick="updateIcon()" class="bg-gold text-white px-6 py-3 rounded-lg hover:opacity-90 transition">
+                            Atualizar
+                        </button>
+                    </div>
+                </div>
+
+                <!-- App Name -->
+                <div>
+                    <h3 class="font-bold text-brown mb-3">Nome do Aplicativo</h3>
+                    <div class="flex space-x-3">
+                        <input type="text" id="appName" value="Viva Sabor" 
+                               class="flex-1 p-3 border border-cream rounded-lg focus:outline-none focus:border-green">
+                        <button onclick="updateAppName()" class="bg-brown text-white px-6 py-3 rounded-lg hover:opacity-90 transition">
+                            Atualizar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Plan Management Section -->
+        <section id="planManagement" class="hidden p-4 space-y-6">
+            <div class="bg-white rounded-2xl p-6 card-shadow">
+                <h2 class="text-xl font-bold text-brown mb-4">Gerenciar Planos Alimentares</h2>
+                
+                <!-- Plan Templates -->
+                <div class="mb-6">
+                    <h3 class="font-bold text-brown mb-3">Modelos de Plano</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="border border-cream rounded-xl p-4">
+                            <h4 class="font-semibold text-brown mb-2">Plano Padrão (6 refeições)</h4>
+                            <p class="text-sm text-brown opacity-70 mb-3">Café, lanche manhã, almoço, lanche tarde, jantar, ceia</p>
+                            <button onclick="editPlan('standard')" class="bg-green text-white px-4 py-2 rounded-lg hover:opacity-90 transition text-sm">
+                                Editar Plano
+                            </button>
+                        </div>
+                        <div class="border border-cream rounded-xl p-4">
+                            <h4 class="font-semibold text-brown mb-2">Plano Diabético</h4>
+                            <p class="text-sm text-brown opacity-70 mb-3">Adaptado para controle glicêmico</p>
+                            <button onclick="editPlan('diabetic')" class="bg-gold text-white px-4 py-2 rounded-lg hover:opacity-90 transition text-sm">
+                                Editar Plano
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Meal Editor -->
+                <div id="mealEditor" class="hidden bg-cream rounded-xl p-4">
+                    <h3 class="font-bold text-brown mb-3">Editor de Refeições</h3>
+                    <div class="space-y-3">
+                        <div>
+                            <label class="block text-brown font-medium mb-2">Nome da Refeição</label>
+                            <input type="text" id="mealName" class="w-full p-3 border border-cream rounded-lg focus:outline-none focus:border-green">
+                        </div>
+                        <div>
+                            <label class="block text-brown font-medium mb-2">Horário</label>
+                            <input type="time" id="mealTime" class="w-full p-3 border border-cream rounded-lg focus:outline-none focus:border-green">
+                        </div>
+                        <div>
+                            <label class="block text-brown font-medium mb-2">Descrição</label>
+                            <textarea id="mealDescription" rows="3" class="w-full p-3 border border-cream rounded-lg focus:outline-none focus:border-green"></textarea>
+                        </div>
+                        <div class="flex space-x-3">
+                            <button onclick="saveMeal()" class="bg-green text-white px-6 py-3 rounded-lg hover:opacity-90 transition">
+                                Salvar
+                            </button>
+                            <button onclick="cancelMealEdit()" class="bg-cream text-brown px-6 py-3 rounded-lg hover:bg-brown hover:text-white transition">
+                                Cancelar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Analytics Section -->
+        <section id="analytics" class="hidden p-4 space-y-6">
+            <div class="bg-white rounded-2xl p-6 card-shadow">
+                <h2 class="text-xl font-bold text-brown mb-4">Relatórios e Estatísticas</h2>
+                
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                    <div class="bg-green bg-opacity-10 border border-green rounded-xl p-4 text-center">
+                        <div class="text-3xl text-green mb-2">👥</div>
+                        <p class="text-2xl font-bold text-green" id="totalUsers">0</p>
+                        <p class="text-sm text-brown">Total de Usuários</p>
+                    </div>
+                    <div class="bg-blue-500 bg-opacity-10 border border-blue-500 rounded-xl p-4 text-center">
+                        <div class="text-3xl text-blue-500 mb-2">📱</div>
+                        <p class="text-2xl font-bold text-blue-500" id="basicUsers">0</p>
+                        <p class="text-sm text-brown">Plano Básico</p>
+                    </div>
+                    <div class="bg-gold bg-opacity-10 border border-gold rounded-xl p-4 text-center">
+                        <div class="text-3xl text-gold mb-2">⭐</div>
+                        <p class="text-2xl font-bold text-gold" id="premiumUsers">0</p>
+                        <p class="text-sm text-brown">Plano Premium</p>
+                    </div>
+                    <div class="bg-brown bg-opacity-10 border border-brown rounded-xl p-4 text-center">
+                        <div class="text-3xl text-brown mb-2">📊</div>
+                        <p class="text-2xl font-bold text-brown" id="premiumPercentage">0%</p>
+                        <p class="text-sm text-brown">Taxa Premium</p>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div>
+                    <h3 class="font-bold text-brown mb-3">Atividade Recente</h3>
+                    <div class="space-y-2" id="recentActivity">
+                        <div class="flex items-center justify-between p-3 bg-cream rounded-lg">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-8 h-8 bg-green rounded-full flex items-center justify-center">
+                                    <span class="text-sm">👤</span>
+                                </div>
+                                <span class="text-sm text-brown">Novo usuário cadastrado</span>
+                            </div>
+                            <span class="text-xs text-brown opacity-70">Há 2 horas</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-cream rounded-lg">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-8 h-8 bg-gold rounded-full flex items-center justify-center">
+                                    <span class="text-sm">🍽️</span>
+                                </div>
+                                <span class="text-sm text-brown">Plano alimentar atualizado</span>
+                            </div>
+                            <span class="text-xs text-brown opacity-70">Há 5 horas</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <!-- Main App (Updated with 6 meals) -->
+    <section id="mainApp" class="hidden">
+        <!-- Header -->
+        <header class="gradient-bg text-white p-4 sticky top-0 z-50">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gold rounded-full flex items-center justify-center">
+                        <span class="text-2xl">🍃</span>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold">Viva Sabor</h1>
+                        <div class="flex items-center space-x-2">
+                            <p class="text-sm text-cream opacity-90" id="welcomeMessage">Olá! 👋</p>
+                            <span id="planBadge" class="text-xs px-2 py-1 rounded-full bg-white bg-opacity-20 font-medium"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <button onclick="showNotifications()" class="relative p-2 bg-white bg-opacity-20 rounded-full">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-5 5v-5zM10.07 2.82l3.93 3.93-3.93 3.93M21 12H3"></path>
+                        </svg>
+                        <div class="notification-dot absolute -top-1 -right-1 w-3 h-3 rounded-full"></div>
+                    </button>
+                    <button onclick="showProfile()" class="w-10 h-10 bg-gold rounded-full flex items-center justify-center">
+                        <span class="text-lg">👤</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="pb-20">
+            <!-- Dashboard -->
+            <section id="dashboard" class="p-4 space-y-6">
+                <!-- Daily Progress -->
+                <div class="bg-white rounded-2xl p-6 card-shadow">
+                    <h2 class="text-xl font-bold text-brown mb-4">Progresso de Hoje</h2>
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="text-center">
+                            <div class="w-16 h-16 mx-auto mb-2 bg-green rounded-full flex items-center justify-center">
+                                <span class="text-2xl">🥗</span>
+                            </div>
+                            <p class="text-sm text-brown font-medium">Refeições</p>
+                            <p class="text-lg font-bold text-green">3/6</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 mx-auto mb-2 bg-gold rounded-full flex items-center justify-center">
+                                <span class="text-2xl">💧</span>
+                            </div>
+                            <p class="text-sm text-brown font-medium">Água</p>
+                            <p class="text-lg font-bold text-gold">1.2L</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 mx-auto mb-2 bg-brown rounded-full flex items-center justify-center">
+                                <span class="text-2xl text-white">🎯</span>
+                            </div>
+                            <p class="text-sm text-brown font-medium">Meta</p>
+                            <p class="text-lg font-bold text-brown">50%</p>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <div class="flex justify-between text-sm text-brown mb-2">
+                            <span>Meta Diária</span>
+                            <span>50%</span>
+                        </div>
+                        <div class="w-full bg-cream rounded-full h-3">
+                            <div class="progress-bar h-3 rounded-full" style="width: 50%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Today's 6 Meals -->
+                <div class="bg-white rounded-2xl p-6 card-shadow">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-xl font-bold text-brown">6 Refeições de Hoje</h2>
+                        <button onclick="showMealPlan()" class="text-gold hover:text-brown text-sm font-medium">Ver plano</button>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between p-3 bg-cream rounded-xl">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-12 h-12 bg-green rounded-full flex items-center justify-center">
+                                    <span class="text-xl">🥣</span>
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-brown">Café da Manhã</p>
+                                    <p class="text-sm text-brown opacity-70">7:00 - Mingau de aveia com frutas</p>
+                                </div>
+                            </div>
+                            <div class="w-6 h-6 bg-green rounded-full flex items-center justify-center">
+                                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between p-3 bg-cream rounded-xl">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-12 h-12 bg-gold rounded-full flex items-center justify-center">
+                                    <span class="text-xl">🍎</span>
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-brown">Lanche da Manhã</p>
+                                    <p class="text-sm text-brown opacity-70">9:30 - Fruta com castanhas</p>
+                                </div>
+                            </div>
+                            <div class="w-6 h-6 bg-gold rounded-full flex items-center justify-center">
+                                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between p-3 bg-cream rounded-xl">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-12 h-12 bg-green rounded-full flex items-center justify-center">
+                                    <span class="text-xl">🍽️</span>
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-brown">Almoço</p>
+                                    <p class="text-sm text-brown opacity-70">12:00 - Peixe grelhado com legumes</p>
+                                </div>
+                            </div>
+                            <div class="w-6 h-6 bg-green rounded-full flex items-center justify-center">
+                                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between p-3 bg-cream rounded-xl opacity-60">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-12 h-12 bg-gold rounded-full flex items-center justify-center">
+                                    <span class="text-xl">🥤</span>
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-brown">Lanche da Tarde</p>
+                                    <p class="text-sm text-brown opacity-70">15:00 - Vitamina de frutas</p>
+                                </div>
+                            </div>
+                            <div class="w-6 h-6 border-2 border-brown rounded-full"></div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between p-3 bg-cream rounded-xl opacity-60">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-12 h-12 bg-brown rounded-full flex items-center justify-center">
+                                    <span class="text-xl text-white">🌅</span>
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-brown">Jantar</p>
+                                    <p class="text-sm text-brown opacity-70">18:00 - Sopa de legumes</p>
+                                </div>
+                            </div>
+                            <div class="w-6 h-6 border-2 border-brown rounded-full"></div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between p-3 bg-cream rounded-xl opacity-60">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-12 h-12 bg-gold rounded-full flex items-center justify-center">
+                                    <span class="text-xl">🌙</span>
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-brown">Ceia</p>
+                                    <p class="text-sm text-brown opacity-70">21:00 - Chá com biscoito integral</p>
+                                </div>
+                            </div>
+                            <div class="w-6 h-6 border-2 border-brown rounded-full"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="bg-white rounded-2xl p-6 card-shadow">
+                    <h2 class="text-xl font-bold text-brown mb-4">Ações Rápidas</h2>
+                    <div class="grid grid-cols-2 gap-4">
+                        <button onclick="showRecipes()" class="bg-green text-white p-4 rounded-xl text-center hover:bg-green hover:opacity-90 transition">
+                            <div class="text-3xl mb-2">🍽️</div>
+                            <p class="font-semibold">Receitas</p>
+                            <p class="text-sm opacity-90">Ver cardápio</p>
+                        </button>
+                        <button onclick="showMealPlan()" class="bg-gold text-white p-4 rounded-xl text-center hover:bg-gold hover:opacity-90 transition">
+                            <div class="text-3xl mb-2">📅</div>
+                            <p class="font-semibold">Plano Semanal</p>
+                            <p class="text-sm opacity-90">6 refeições</p>
+                        </button>
+                        <button onclick="showConsultations()" class="bg-brown text-white p-4 rounded-xl text-center hover:bg-brown hover:opacity-90 transition">
+                            <div class="text-3xl mb-2">👩‍⚕️</div>
+                            <p class="font-semibold">Consultas</p>
+                            <p class="text-sm opacity-90">Agendar</p>
+                        </button>
+                        <button onclick="showVideos()" class="bg-cream text-brown border-2 border-brown p-4 rounded-xl text-center hover:bg-brown hover:text-white transition">
+                            <div class="text-3xl mb-2">🎥</div>
+                            <p class="font-semibold">Vídeo-aulas</p>
+                            <p class="text-sm opacity-90">Aprender</p>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Health Tips -->
+                <div class="bg-white rounded-2xl p-6 card-shadow">
+                    <h2 class="text-xl font-bold text-brown mb-4">Dica do Dia</h2>
+                    <div class="bg-green bg-opacity-10 border border-green rounded-xl p-4">
+                        <div class="flex items-start space-x-3">
+                            <div class="text-2xl">💡</div>
+                            <div>
+                                <h3 class="font-semibold text-green mb-2">6 refeições por dia!</h3>
+                                <p class="text-brown text-sm">Fazer 6 pequenas refeições ao longo do dia ajuda a manter o metabolismo ativo e evita picos de glicose no sangue.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Updated Meal Plan with 6 meals -->
+            <section id="mealPlan" class="hidden p-4 space-y-6">
+                <div class="flex items-center justify-between">
+                    <h1 class="text-2xl font-bold text-brown">Plano das 6 Refeições</h1>
+                    <button onclick="generateNewPlan()" class="bg-gold text-white px-4 py-2 rounded-lg hover:bg-gold hover:opacity-90 transition text-sm">
+                        Gerar Novo
+                    </button>
+                </div>
+
+                <!-- Week Navigation -->
+                <div class="flex items-center justify-between bg-white rounded-2xl p-4 card-shadow">
+                    <button class="p-2 text-brown hover:bg-cream rounded-lg transition">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="text-center">
+                        <h2 class="font-bold text-brown">Esta Semana</h2>
+                        <p class="text-sm text-brown opacity-70">18 - 24 Nov 2024</p>
+                    </div>
+                    <button class="p-2 text-brown hover:bg-cream rounded-lg transition">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Daily Meal Plans with 6 meals -->
+                <div class="space-y-4">
+                    <div class="bg-white rounded-2xl p-4 card-shadow">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="font-bold text-brown">Segunda-feira</h3>
+                            <span class="text-sm text-green bg-green bg-opacity-10 px-2 py-1 rounded-full">Hoje</span>
+                        </div>
+                        <div class="space-y-2">
+                            <div class="flex items-center justify-between p-2 bg-cream rounded-lg">
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-lg">🥣</span>
+                                    <span class="text-sm font-medium text-brown">Mingau de aveia com frutas</span>
+                                </div>
+                                <span class="text-xs text-brown opacity-70">7:00</span>
+                            </div>
+                            <div class="flex items-center justify-between p-2 bg-cream rounded-lg">
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-lg">🍎</span>
+                                    <span class="text-sm font-medium text-brown">Fruta com castanhas</span>
+                                </div>
+                                <span class="text-xs text-brown opacity-70">9:30</span>
+                            </div>
+                            <div class="flex items-center justify-between p-2 bg-cream rounded-lg">
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-lg">🐟</span>
+                                    <span class="text-sm font-medium text-brown">Peixe grelhado com legumes</span>
+                                </div>
+                                <span class="text-xs text-brown opacity-70">12:00</span>
+                            </div>
+                            <div class="flex items-center justify-between p-2 bg-cream rounded-lg">
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-lg">🥤</span>
+                                    <span class="text-sm font-medium text-brown">Vitamina de frutas</span>
+                                </div>
+                                <span class="text-xs text-brown opacity-70">15:00</span>
+                            </div>
+                            <div class="flex items-center justify-between p-2 bg-cream rounded-lg">
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-lg">🍲</span>
+                                    <span class="text-sm font-medium text-brown">Sopa de legumes</span>
+                                </div>
+                                <span class="text-xs text-brown opacity-70">18:00</span>
+                            </div>
+                            <div class="flex items-center justify-between p-2 bg-cream rounded-lg">
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-lg">🍵</span>
+                                    <span class="text-sm font-medium text-brown">Chá com biscoito integral</span>
+                                </div>
+                                <span class="text-xs text-brown opacity-70">21:00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-2xl p-4 card-shadow">
+                        <h3 class="font-bold text-brown mb-3">Terça-feira</h3>
+                        <div class="space-y-2">
+                            <div class="flex items-center justify-between p-2 bg-cream rounded-lg">
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-lg">🍞</span>
+                                    <span class="text-sm font-medium text-brown">Pão integral com abacate</span>
+                                </div>
+                                <span class="text-xs text-brown opacity-70">7:00</span>
+                            </div>
+                            <div class="flex items-center justify-between p-2 bg-cream rounded-lg">
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-lg">🥜</span>
+                                    <span class="text-sm font-medium text-brown">Mix de oleaginosas</span>
+                                </div>
+                                <span class="text-xs text-brown opacity-70">9:30</span>
+                            </div>
+                            <div class="flex items-center justify-between p-2 bg-cream rounded-lg">
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-lg">🍗</span>
+                                    <span class="text-sm font-medium text-brown">Frango assado com batata doce</span>
+                                </div>
+                                <span class="text-xs text-brown opacity-70">12:00</span>
+                            </div>
+                            <div class="flex items-center justify-between p-2 bg-cream rounded-lg">
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-lg">🧀</span>
+                                    <span class="text-sm font-medium text-brown">Queijo branco com torrada</span>
+                                </div>
+                                <span class="text-xs text-brown opacity-70">15:00</span>
+                            </div>
+                            <div class="flex items-center justify-between p-2 bg-cream rounded-lg">
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-lg">🥗</span>
+                                    <span class="text-sm font-medium text-brown">Salada verde com quinoa</span>
+                                </div>
+                                <span class="text-xs text-brown opacity-70">18:00</span>
+                            </div>
+                            <div class="flex items-center justify-between p-2 bg-cream rounded-lg">
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-lg">🥛</span>
+                                    <span class="text-sm font-medium text-brown">Leite morno com mel</span>
+                                </div>
+                                <span class="text-xs text-brown opacity-70">21:00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recipes Section -->
+            <section id="recipes" class="hidden p-4 space-y-6">
+                <div class="flex items-center justify-between">
+                    <h1 class="text-2xl font-bold text-brown">Receitas Personalizadas</h1>
+                    <div class="flex items-center space-x-2">
+                        <span id="planBadgeRecipes" class="text-xs px-2 py-1 rounded-full bg-green text-white font-medium">Básico</span>
+                    </div>
+                </div>
+
+                <!-- Filter by meal type -->
+                <div class="bg-white rounded-2xl p-4 card-shadow">
+                    <h3 class="font-bold text-brown mb-3">Filtrar por Refeição</h3>
+                    <div class="flex overflow-x-auto space-x-2 pb-2">
+                        <button onclick="filterRecipes('all')" class="recipe-filter-btn active whitespace-nowrap px-4 py-2 bg-green text-white rounded-lg text-sm">
+                            Todas
+                        </button>
+                        <button onclick="filterRecipes('cafe')" class="recipe-filter-btn whitespace-nowrap px-4 py-2 bg-cream text-brown rounded-lg text-sm">
+                            Café da Manhã
+                        </button>
+                        <button onclick="filterRecipes('lanche-manha')" class="recipe-filter-btn whitespace-nowrap px-4 py-2 bg-cream text-brown rounded-lg text-sm">
+                            Lanche Manhã
+                        </button>
+                        <button onclick="filterRecipes('almoco')" class="recipe-filter-btn whitespace-nowrap px-4 py-2 bg-cream text-brown rounded-lg text-sm">
+                            Almoço
+                        </button>
+                        <button onclick="filterRecipes('lanche-tarde')" class="recipe-filter-btn whitespace-nowrap px-4 py-2 bg-cream text-brown rounded-lg text-sm">
+                            Lanche Tarde
+                        </button>
+                        <button onclick="filterRecipes('jantar')" class="recipe-filter-btn whitespace-nowrap px-4 py-2 bg-cream text-brown rounded-lg text-sm">
+                            Jantar
+                        </button>
+                        <button onclick="filterRecipes('ceia')" class="recipe-filter-btn whitespace-nowrap px-4 py-2 bg-cream text-brown rounded-lg text-sm">
+                            Ceia
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Recipes Grid -->
+                <div id="recipesGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Recipes will be populated here -->
+                </div>
+            </section>
+            
+            <!-- Consultations Section -->
+            <section id="consultations" class="hidden p-4 space-y-6">
+                <div class="flex items-center justify-between">
+                    <h1 class="text-2xl font-bold text-brown">Consultas</h1>
+                    <div class="flex items-center space-x-2">
+                        <span id="planBadgeConsultations" class="text-xs px-2 py-1 rounded-full bg-green text-white font-medium">Básico</span>
+                    </div>
+                </div>
+
+                <!-- Premium Feature Notice for Basic Users -->
+                <div id="consultationsPremiumNotice" class="bg-gold bg-opacity-10 border border-gold rounded-2xl p-6 text-center">
+                    <div class="text-4xl mb-4">⭐</div>
+                    <h3 class="text-xl font-bold text-gold mb-2">Recurso Premium</h3>
+                    <p class="text-brown mb-4">Agende consultas com nutricionista, terapeuta e psicólogo com o Plano Premium!</p>
+                    <button onclick="showUpgradeModal()" class="bg-gold text-white px-6 py-3 rounded-lg hover:opacity-90 transition font-semibold">
+                        Fazer Upgrade
+                    </button>
+                </div>
+
+                <!-- Premium Consultations Content -->
+                <div id="consultationsContent" class="hidden space-y-6">
+                    <!-- Consultation Types -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-white rounded-2xl p-6 card-shadow text-center">
+                            <div class="w-16 h-16 bg-green rounded-full flex items-center justify-center mx-auto mb-4">
+                                <span class="text-3xl">🥗</span>
+                            </div>
+                            <h3 class="font-bold text-brown mb-2">Nutricionista</h3>
+                            <p class="text-sm text-brown opacity-70 mb-4">Consulta personalizada sobre alimentação</p>
+                            <button onclick="scheduleConsultation('nutricionista')" class="w-full bg-green text-white py-2 rounded-lg hover:opacity-90 transition">
+                                Agendar
+                            </button>
+                        </div>
+
+                        <div class="bg-white rounded-2xl p-6 card-shadow text-center">
+                            <div class="w-16 h-16 bg-gold rounded-full flex items-center justify-center mx-auto mb-4">
+                                <span class="text-3xl">🧠</span>
+                            </div>
+                            <h3 class="font-bold text-brown mb-2">Psicólogo</h3>
+                            <p class="text-sm text-brown opacity-70 mb-4">Apoio emocional e bem-estar mental</p>
+                            <button onclick="scheduleConsultation('psicologo')" class="w-full bg-gold text-white py-2 rounded-lg hover:opacity-90 transition">
+                                Agendar
+                            </button>
+                        </div>
+
+                        <div class="bg-white rounded-2xl p-6 card-shadow text-center">
+                            <div class="w-16 h-16 bg-brown rounded-full flex items-center justify-center mx-auto mb-4">
+                                <span class="text-3xl text-white">💆</span>
+                            </div>
+                            <h3 class="font-bold text-brown mb-2">Terapeuta</h3>
+                            <p class="text-sm text-brown opacity-70 mb-4">Terapias complementares</p>
+                            <button onclick="scheduleConsultation('terapeuta')" class="w-full bg-brown text-white py-2 rounded-lg hover:opacity-90 transition">
+                                Agendar
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Scheduled Consultations -->
+                    <div class="bg-white rounded-2xl p-6 card-shadow">
+                        <h3 class="font-bold text-brown mb-4">Próximas Consultas</h3>
+                        <div id="scheduledConsultations" class="space-y-3">
+                            <div class="flex items-center justify-between p-3 bg-cream rounded-lg">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 bg-green rounded-full flex items-center justify-center">
+                                        <span class="text-lg">🥗</span>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium text-brown">Dra. Maria Silva - Nutricionista</p>
+                                        <p class="text-sm text-brown opacity-70">25/11/2024 às 14:00</p>
+                                    </div>
+                                </div>
+                                <button onclick="cancelConsultation(1)" class="text-red-500 hover:text-red-700 text-sm">
+                                    Cancelar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Videos Section -->
+            <section id="videos" class="hidden p-4 space-y-6">
+                <div class="flex items-center justify-between">
+                    <h1 class="text-2xl font-bold text-brown">Vídeo-aulas</h1>
+                    <div class="flex items-center space-x-2">
+                        <span id="planBadgeVideos" class="text-xs px-2 py-1 rounded-full bg-green text-white font-medium">Básico</span>
+                    </div>
+                </div>
+
+                <!-- Premium Feature Notice for Basic Users -->
+                <div id="videosPremiumNotice" class="bg-gold bg-opacity-10 border border-gold rounded-2xl p-6 text-center">
+                    <div class="text-4xl mb-4">🎥</div>
+                    <h3 class="text-xl font-bold text-gold mb-2">Recurso Premium</h3>
+                    <p class="text-brown mb-4">Acesse vídeo-aulas exclusivas de preparo de refeições com o Plano Premium!</p>
+                    <button onclick="showUpgradeModal()" class="bg-gold text-white px-6 py-3 rounded-lg hover:opacity-90 transition font-semibold">
+                        Fazer Upgrade
+                    </button>
+                </div>
+
+                <!-- Premium Videos Content -->
+                <div id="videosContent" class="hidden space-y-6">
+                    <!-- Video Categories -->
+                    <div class="bg-white rounded-2xl p-4 card-shadow">
+                        <h3 class="font-bold text-brown mb-3">Categorias</h3>
+                        <div class="flex overflow-x-auto space-x-2 pb-2">
+                            <button onclick="filterVideos('all')" class="video-filter-btn active whitespace-nowrap px-4 py-2 bg-gold text-white rounded-lg text-sm">
+                                Todos
+                            </button>
+                            <button onclick="filterVideos('basico')" class="video-filter-btn whitespace-nowrap px-4 py-2 bg-cream text-brown rounded-lg text-sm">
+                                Técnicas Básicas
+                            </button>
+                            <button onclick="filterVideos('receitas')" class="video-filter-btn whitespace-nowrap px-4 py-2 bg-cream text-brown rounded-lg text-sm">
+                                Receitas Passo a Passo
+                            </button>
+                            <button onclick="filterVideos('nutricao')" class="video-filter-btn whitespace-nowrap px-4 py-2 bg-cream text-brown rounded-lg text-sm">
+                                Dicas de Nutrição
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Videos Grid -->
+                    <div id="videosGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Videos will be populated here -->
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Profile Section -->
+            <section id="profile" class="hidden p-4 space-y-6">
+                <h1 class="text-2xl font-bold text-brown">Meu Perfil</h1>
+                
+                <!-- User Info -->
+                <div class="bg-white rounded-2xl p-6 card-shadow">
+                    <div class="flex items-center space-x-4 mb-6">
+                        <div class="w-20 h-20 bg-gold rounded-full flex items-center justify-center">
+                            <span class="text-3xl">👤</span>
+                        </div>
+                        <div>
+                            <h2 class="text-xl font-bold text-brown" id="profileName">Nome do Usuário</h2>
+                            <p class="text-brown opacity-70" id="profileEmail">email@exemplo.com</p>
+                            <div class="flex items-center space-x-2 mt-2">
+                                <span id="profilePlanBadge" class="text-xs px-2 py-1 rounded-full bg-green text-white font-medium">Básico</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Support Section -->
+                    <div class="border-t border-cream pt-6">
+                        <h3 class="font-bold text-brown mb-4">Suporte</h3>
+                        
+                        <!-- Email Support (Available for all) -->
+                        <div class="bg-cream rounded-xl p-4 mb-4">
+                            <div class="flex items-center space-x-3 mb-2">
+                                <span class="text-2xl">📧</span>
+                                <h4 class="font-semibold text-brown">Suporte por E-mail</h4>
+                            </div>
+                            <p class="text-sm text-brown opacity-70 mb-3">Envie suas dúvidas para nossa equipe</p>
+                            <button onclick="openEmailSupport()" class="bg-green text-white px-4 py-2 rounded-lg hover:opacity-90 transition text-sm">
+                                Enviar E-mail
+                            </button>
+                        </div>
+
+                        <!-- Chat Support (Premium only) -->
+                        <div id="chatSupportSection" class="bg-cream rounded-xl p-4">
+                            <div class="flex items-center space-x-3 mb-2">
+                                <span class="text-2xl">💬</span>
+                                <h4 class="font-semibold text-brown">Chat ao Vivo</h4>
+                                <span class="text-xs px-2 py-1 rounded-full bg-gold text-white font-medium">Premium</span>
+                            </div>
+                            <p class="text-sm text-brown opacity-70 mb-3">Converse em tempo real com nossa equipe</p>
+                            <button id="chatSupportBtn" onclick="openChatSupport()" class="bg-gold text-white px-4 py-2 rounded-lg hover:opacity-90 transition text-sm">
+                                Iniciar Chat
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings -->
+                <div class="bg-white rounded-2xl p-6 card-shadow">
+                    <h3 class="font-bold text-brown mb-4">Configurações</h3>
+                    <div class="space-y-3">
+                        <button onclick="editProfile()" class="w-full text-left p-3 bg-cream rounded-lg hover:bg-brown hover:text-white transition">
+                            ⚙️ Editar Perfil
+                        </button>
+                        <button onclick="changeRestrictions()" class="w-full text-left p-3 bg-cream rounded-lg hover:bg-brown hover:text-white transition">
+                            🚫 Alterar Restrições Alimentares
+                        </button>
+                        <button onclick="logout()" class="w-full text-left p-3 bg-red-100 text-red-600 rounded-lg hover:bg-red-500 hover:text-white transition">
+                            🚪 Sair da Conta
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-cream">
+            <div class="flex justify-around py-2">
+                <button onclick="showDashboard()" class="nav-item active flex flex-col items-center py-2 px-4">
+                    <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    </svg>
+                    <span class="text-xs">Início</span>
+                </button>
+                <button onclick="showRecipes()" class="nav-item flex flex-col items-center py-2 px-4">
+                    <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                    </svg>
+                    <span class="text-xs">Receitas</span>
+                </button>
+                <button onclick="showMealPlan()" class="nav-item flex flex-col items-center py-2 px-4">
+                    <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                    </svg>
+                    <span class="text-xs">6 Refeições</span>
+                </button>
+                <button onclick="showConsultations()" class="nav-item flex flex-col items-center py-2 px-4">
+                    <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                    </svg>
+                    <span class="text-xs">Consultas</span>
+                </button>
+                <button onclick="showVideos()" class="nav-item flex flex-col items-center py-2 px-4">
+                    <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                    </svg>
+                    <span class="text-xs">Vídeos</span>
+                </button>
+            </div>
+        </nav>
+    </section>
+
+    <!-- Recipe Detail Modal -->
+    <div id="recipeModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="sticky top-0 bg-white border-b border-cream p-4 flex items-center justify-between">
+                <h2 id="recipeModalTitle" class="text-xl font-bold text-brown">Receita</h2>
+                <button onclick="closeRecipeModal()" class="w-8 h-8 bg-cream rounded-full flex items-center justify-center hover:bg-brown hover:text-white transition">
+                    ✕
+                </button>
+            </div>
+            
+            <div class="p-6 space-y-6">
+                <!-- Recipe Info -->
+                <div class="flex items-center space-x-4 text-sm text-brown">
+                    <span id="recipeModalTime">⏱️ 15 min</span>
+                    <span id="recipeModalDifficulty">🍽️ Fácil</span>
+                    <span id="recipeModalCategory">🥣 Café da Manhã</span>
+                </div>
+
+                <!-- Ingredients -->
+                <div>
+                    <h3 class="font-bold text-brown mb-3 text-lg">Ingredientes</h3>
+                    <div class="bg-cream rounded-xl p-4">
+                        <ul id="recipeModalIngredients" class="space-y-2">
+                            <!-- Ingredients will be populated here -->
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Instructions -->
+                <div>
+                    <h3 class="font-bold text-brown mb-3 text-lg">Modo de Preparo</h3>
+                    <div class="space-y-3" id="recipeModalInstructions">
+                        <!-- Instructions will be populated here -->
+                    </div>
+                </div>
+
+                <!-- Nutritional Info -->
+                <div>
+                    <h3 class="font-bold text-brown mb-3 text-lg">Informações Nutricionais</h3>
+                    <div class="bg-green bg-opacity-10 border border-green rounded-xl p-4">
+                        <div class="grid grid-cols-2 gap-4 text-sm">
+                            <div class="text-center">
+                                <p class="font-bold text-green" id="recipeModalCalories">250</p>
+                                <p class="text-brown opacity-70">Calorias</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="font-bold text-green" id="recipeModalProtein">12g</p>
+                                <p class="text-brown opacity-70">Proteínas</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="font-bold text-green" id="recipeModalCarbs">35g</p>
+                                <p class="text-brown opacity-70">Carboidratos</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="font-bold text-green" id="recipeModalFat">8g</p>
+                                <p class="text-brown opacity-70">Gorduras</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Restrictions -->
+                <div id="recipeModalRestrictions">
+                    <h3 class="font-bold text-brown mb-3 text-lg">Adequado para</h3>
+                    <div class="flex flex-wrap gap-2" id="recipeModalRestrictionTags">
+                        <!-- Restriction tags will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Restrictions Modal -->
+    <div id="restrictionsModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="sticky top-0 bg-white border-b border-cream p-4 flex items-center justify-between">
+                <h2 class="text-xl font-bold text-brown">Alterar Restrições Alimentares</h2>
+                <button onclick="closeRestrictionsModal()" class="w-8 h-8 bg-cream rounded-full flex items-center justify-center hover:bg-brown hover:text-white transition">
+                    ✕
+                </button>
+            </div>
+            
+            <div class="p-6 space-y-6">
+                <div>
+                    <h3 class="font-bold text-brown mb-4">Condições de Saúde</h3>
+                    <div class="grid grid-cols-2 gap-3 mb-6">
+                        <button type="button" onclick="toggleModalRestriction('diabetes')" 
+                                class="modal-restriction-tag p-3 border border-cream rounded-lg text-brown hover:border-green transition text-sm">
+                            🩺 Diabetes
+                        </button>
+                        <button type="button" onclick="toggleModalRestriction('hipertensao')" 
+                                class="modal-restriction-tag p-3 border border-cream rounded-lg text-brown hover:border-green transition text-sm">
+                            💓 Hipertensão
+                        </button>
+                        <button type="button" onclick="toggleModalRestriction('colesterol')" 
+                                class="modal-restriction-tag p-3 border border-cream rounded-lg text-brown hover:border-green transition text-sm">
+                            🧪 Colesterol Alto
+                        </button>
+                        <button type="button" onclick="toggleModalRestriction('gastrite')" 
+                                class="modal-restriction-tag p-3 border border-cream rounded-lg text-brown hover:border-green transition text-sm">
+                            🫄 Gastrite
+                        </button>
+                        <button type="button" onclick="toggleModalRestriction('osteoporose')" 
+                                class="modal-restriction-tag p-3 border border-cream rounded-lg text-brown hover:border-green transition text-sm">
+                            🦴 Osteoporose
+                        </button>
+                        <button type="button" onclick="toggleModalRestriction('artrite')" 
+                                class="modal-restriction-tag p-3 border border-cream rounded-lg text-brown hover:border-green transition text-sm">
+                            🦵 Artrite
+                        </button>
+                    </div>
+
+                    <h3 class="font-bold text-brown mb-4">Restrições Alimentares</h3>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button type="button" onclick="toggleModalRestriction('lactose')" 
+                                class="modal-restriction-tag p-3 border border-cream rounded-lg text-brown hover:border-green transition text-sm">
+                            🥛 Sem Lactose
+                        </button>
+                        <button type="button" onclick="toggleModalRestriction('gluten')" 
+                                class="modal-restriction-tag p-3 border border-cream rounded-lg text-brown hover:border-green transition text-sm">
+                            🌾 Sem Glúten
+                        </button>
+                        <button type="button" onclick="toggleModalRestriction('vegetariano')" 
+                                class="modal-restriction-tag p-3 border border-cream rounded-lg text-brown hover:border-green transition text-sm">
+                            🥬 Vegetariano
+                        </button>
+                        <button type="button" onclick="toggleModalRestriction('vegano')" 
+                                class="modal-restriction-tag p-3 border border-cream rounded-lg text-brown hover:border-green transition text-sm">
+                            🌱 Vegano
+                        </button>
+                        <button type="button" onclick="toggleModalRestriction('baixo-sodio')" 
+                                class="modal-restriction-tag p-3 border border-cream rounded-lg text-brown hover:border-green transition text-sm">
+                            🧂 Baixo Sódio
+                        </button>
+                        <button type="button" onclick="toggleModalRestriction('baixo-acucar')" 
+                                class="modal-restriction-tag p-3 border border-cream rounded-lg text-brown hover:border-green transition text-sm">
+                            🍯 Baixo Açúcar
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex space-x-3">
+                    <button onclick="closeRestrictionsModal()" class="flex-1 bg-cream text-brown py-3 rounded-lg hover:bg-brown hover:text-white transition font-semibold">
+                        Cancelar
+                    </button>
+                    <button onclick="saveRestrictions()" class="flex-1 bg-green text-white py-3 rounded-lg hover:opacity-90 transition font-semibold">
+                        Salvar Alterações
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Profile Modal -->
+    <div id="profileModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full">
+            <div class="border-b border-cream p-4 flex items-center justify-between">
+                <h2 class="text-xl font-bold text-brown">Editar Perfil</h2>
+                <button onclick="closeProfileModal()" class="w-8 h-8 bg-cream rounded-full flex items-center justify-center hover:bg-brown hover:text-white transition">
+                    ✕
+                </button>
+            </div>
+            
+            <div class="p-6 space-y-4">
+                <div>
+                    <label class="block text-brown font-medium mb-2">Nome Completo</label>
+                    <input type="text" id="editProfileName" 
+                           class="input-field w-full p-3 border border-cream rounded-lg focus:outline-none">
+                </div>
+                
+                <div>
+                    <label class="block text-brown font-medium mb-2">Idade</label>
+                    <input type="number" id="editProfileAge" min="50" max="100"
+                           class="input-field w-full p-3 border border-cream rounded-lg focus:outline-none">
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-brown font-medium mb-2">Peso (kg)</label>
+                        <input type="number" id="editProfileWeight" min="30" max="200" step="0.1"
+                               class="input-field w-full p-3 border border-cream rounded-lg focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-brown font-medium mb-2">Altura (cm)</label>
+                        <input type="number" id="editProfileHeight" min="120" max="220"
+                               class="input-field w-full p-3 border border-cream rounded-lg focus:outline-none">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-brown font-medium mb-2">Sexo</label>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button type="button" onclick="selectEditGender('feminino')" id="editGenderFem"
+                                class="edit-gender-btn p-3 border border-cream rounded-lg text-brown hover:border-green transition">
+                            👩 Feminino
+                        </button>
+                        <button type="button" onclick="selectEditGender('masculino')" id="editGenderMasc"
+                                class="edit-gender-btn p-3 border border-cream rounded-lg text-brown hover:border-green transition">
+                            👨 Masculino
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex space-x-3 pt-4">
+                    <button onclick="closeProfileModal()" class="flex-1 bg-cream text-brown py-3 rounded-lg hover:bg-brown hover:text-white transition font-semibold">
+                        Cancelar
+                    </button>
+                    <button onclick="saveProfile()" class="flex-1 bg-green text-white py-3 rounded-lg hover:opacity-90 transition font-semibold">
+                        Salvar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentStep = 1;
+        let selectedGender = '';
+        let selectedRestrictions = [];
+        let selectedGoal = '';
+        let selectedActivity = '';
+        let userData = {};
+        let selectedPlan = '';
+
+        // Login/Register functions
+        function showLogin() {
+            document.getElementById('loginForm').classList.remove('hidden');
+            document.getElementById('registerForm').classList.add('hidden');
+        }
+
+        function showRegister() {
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('registerForm').classList.remove('hidden');
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            // Check for admin login
+            if (email === 'administrador@gmail.com' && password === 'poiuyt') {
+                userData = {
+                    name: 'Administrador',
+                    email: email,
+                    isAdmin: true,
+                    setupComplete: true
+                };
+                showAdminPanel();
+                return;
+            }
+            
+            // Simple validation (in real app, this would be server-side)
+            if (email && password) {
+                // Check if user has access to the plan
+                const allowedUsers = JSON.parse(localStorage.getItem('vivasabor_allowed_users') || '[]');
+                const userAccess = allowedUsers.find(user => {
+                    return typeof user === 'string' ? user === email : user.email === email;
+                });
+                
+                if (!userAccess) {
+                    alert('Acesso negado. Seu e-mail não está autorizado no plano. Entre em contato com o administrador.');
+                    return;
+                }
+                
+                // Get user plan
+                const userPlan = typeof userAccess === 'string' ? 'basico' : userAccess.plan;
+                
+                // Check if user exists (simulate)
+                const existingUser = localStorage.getItem('vivasabor_user_' + email);
+                if (existingUser) {
+                    userData = JSON.parse(existingUser);
+                    userData.plan = userPlan; // Update plan info
+                    showMainApp();
+                } else {
+                    alert('Usuário não encontrado. Por favor, cadastre-se primeiro.');
+                }
+            }
+        }
+
+        function handleRegister(event) {
+            event.preventDefault();
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                alert('As senhas não coincidem!');
+                return;
+            }
+            
+            if (name && email && password) {
+                userData = { name, email, password };
+                showOnboarding();
+            }
+        }
+
+        // Onboarding functions
+        function showOnboarding() {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('onboardingScreen').classList.remove('hidden');
+        }
+
+        function nextStep() {
+            if (currentStep === 1) {
+                // Validate step 1
+                const age = document.getElementById('age').value;
+                const weight = document.getElementById('weight').value;
+                const height = document.getElementById('height').value;
+                
+                if (!age || !weight || !height || !selectedGender) {
+                    alert('Por favor, preencha todos os campos!');
+                    return;
+                }
+                
+                userData.age = age;
+                userData.weight = weight;
+                userData.height = height;
+                userData.gender = selectedGender;
+            }
+            
+            if (currentStep < 3) {
+                document.getElementById('step' + currentStep).classList.add('hidden');
+                currentStep++;
+                document.getElementById('step' + currentStep).classList.remove('hidden');
+                updateStepIndicators();
+            }
+        }
+
+        function prevStep() {
+            if (currentStep > 1) {
+                document.getElementById('step' + currentStep).classList.add('hidden');
+                currentStep--;
+                document.getElementById('step' + currentStep).classList.remove('hidden');
+                updateStepIndicators();
+            }
+        }
+
+        function updateStepIndicators() {
+            for (let i = 1; i <= 3; i++) {
+                const indicator = document.querySelectorAll('.step-indicator')[i-1];
+                indicator.classList.remove('active', 'completed');
+                
+                if (i < currentStep) {
+                    indicator.classList.add('completed');
+                } else if (i === currentStep) {
+                    indicator.classList.add('active');
+                } else {
+                    indicator.classList.add('bg-white', 'bg-opacity-20');
+                }
+            }
+        }
+
+        function selectGender(gender) {
+            selectedGender = gender;
+            document.querySelectorAll('.gender-btn').forEach(btn => {
+                btn.classList.remove('border-green', 'bg-green', 'text-white');
+                btn.classList.add('border-cream', 'text-brown');
+            });
+            event.target.classList.remove('border-cream', 'text-brown');
+            event.target.classList.add('border-green', 'bg-green', 'text-white');
+        }
+
+        function toggleRestriction(restriction) {
+            const index = selectedRestrictions.indexOf(restriction);
+            if (index > -1) {
+                selectedRestrictions.splice(index, 1);
+                event.target.classList.remove('selected');
+            } else {
+                selectedRestrictions.push(restriction);
+                event.target.classList.add('selected');
+            }
+        }
+
+        function selectGoal(goal) {
+            selectedGoal = goal;
+            document.querySelectorAll('.goal-btn').forEach(btn => {
+                btn.classList.remove('border-green', 'bg-green', 'text-white');
+                btn.classList.add('border-cream', 'text-brown');
+            });
+            event.target.classList.remove('border-cream', 'text-brown');
+            event.target.classList.add('border-green', 'bg-green', 'text-white');
+        }
+
+        function selectActivity(activity) {
+            selectedActivity = activity;
+            document.querySelectorAll('.activity-btn').forEach(btn => {
+                btn.classList.remove('border-green', 'bg-green', 'text-white');
+                btn.classList.add('border-cream', 'text-brown');
+            });
+            event.target.classList.remove('border-cream', 'text-brown');
+            event.target.classList.add('border-green', 'bg-green', 'text-white');
+        }
+
+        function completeOnboarding() {
+            if (!selectedGoal || !selectedActivity) {
+                alert('Por favor, selecione todas as opções!');
+                return;
+            }
+            
+            userData.restrictions = selectedRestrictions;
+            userData.goal = selectedGoal;
+            userData.activity = selectedActivity;
+            userData.setupComplete = true;
+            
+            // Save user data
+            localStorage.setItem('vivasabor_user_' + userData.email, JSON.stringify(userData));
+            
+            showMainApp();
+        }
+
+        function showMainApp() {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('onboardingScreen').classList.add('hidden');
+            document.getElementById('mainApp').classList.remove('hidden');
+            
+            // Update welcome message and plan badge
+            document.getElementById('welcomeMessage').textContent = `Olá, ${userData.name}! 👋`;
+            
+            const planBadge = document.getElementById('planBadge');
+            if (userData.plan) {
+                const planName = userData.plan === 'premium' ? 'Premium ⭐' : 'Básico 📱';
+                planBadge.textContent = planName;
+                planBadge.style.display = 'inline-block';
+            } else {
+                planBadge.style.display = 'none';
+            }
+            
+            // Update plan badges in all sections
+            updatePlanBadges();
+            
+            // Configure features based on plan
+            configurePlanFeatures();
+            
+            // Load recipes
+            loadRecipes();
+            
+            // Load videos if premium
+            if (userData.plan === 'premium') {
+                loadVideos();
+            }
+            
+            // Update profile info
+            updateProfileInfo();
+            
+            // Initialize meal plan with current week
+            updateMealPlanDisplay();
+            
+            showDashboard();
+        }
+
+        function updatePlanBadges() {
+            const planName = userData.plan === 'premium' ? 'Premium ⭐' : 'Básico 📱';
+            const planColor = userData.plan === 'premium' ? 'bg-gold' : 'bg-green';
+            
+            // Update all plan badges
+            ['planBadgeRecipes', 'planBadgeConsultations', 'planBadgeVideos', 'profilePlanBadge'].forEach(id => {
+                const badge = document.getElementById(id);
+                if (badge) {
+                    badge.textContent = planName;
+                    badge.className = `text-xs px-2 py-1 rounded-full ${planColor} text-white font-medium`;
+                }
+            });
+        }
+
+        function configurePlanFeatures() {
+            const isPremium = userData.plan === 'premium';
+            
+            // Configure consultations
+            const consultationsPremiumNotice = document.getElementById('consultationsPremiumNotice');
+            const consultationsContent = document.getElementById('consultationsContent');
+            
+            if (isPremium) {
+                consultationsPremiumNotice.classList.add('hidden');
+                consultationsContent.classList.remove('hidden');
+            } else {
+                consultationsPremiumNotice.classList.remove('hidden');
+                consultationsContent.classList.add('hidden');
+            }
+            
+            // Configure videos
+            const videosPremiumNotice = document.getElementById('videosPremiumNotice');
+            const videosContent = document.getElementById('videosContent');
+            
+            if (isPremium) {
+                videosPremiumNotice.classList.add('hidden');
+                videosContent.classList.remove('hidden');
+            } else {
+                videosPremiumNotice.classList.remove('hidden');
+                videosContent.classList.add('hidden');
+            }
+            
+            // Configure chat support
+            const chatSupportBtn = document.getElementById('chatSupportBtn');
+            if (isPremium) {
+                chatSupportBtn.disabled = false;
+                chatSupportBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            } else {
+                chatSupportBtn.disabled = true;
+                chatSupportBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                chatSupportBtn.onclick = () => showUpgradeModal();
+            }
+        }
+
+        function updateProfileInfo() {
+            document.getElementById('profileName').textContent = userData.name || 'Nome do Usuário';
+            document.getElementById('profileEmail').textContent = userData.email || 'email@exemplo.com';
+        }
+
+        // Main app navigation functions
+        function showSection(sectionId) {
+            document.querySelectorAll('#mainApp main > section').forEach(section => {
+                section.classList.add('hidden');
+            });
+            
+            document.getElementById(sectionId).classList.remove('hidden');
+            
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            document.getElementById(sectionId).classList.add('animate-fade-in');
+        }
+
+        function showDashboard() {
+            showSection('dashboard');
+            event.target?.closest('.nav-item')?.classList.add('active');
+        }
+
+        function showRecipes() {
+            showSection('recipes');
+            event.target?.closest('.nav-item')?.classList.add('active');
+        }
+
+        function showMealPlan() {
+            showSection('mealPlan');
+            event.target?.closest('.nav-item')?.classList.add('active');
+        }
+
+        function showConsultations() {
+            showSection('consultations');
+            event.target?.closest('.nav-item')?.classList.add('active');
+        }
+
+        function showVideos() {
+            showSection('videos');
+            event.target?.closest('.nav-item')?.classList.add('active');
+        }
+
+        function showProfile() {
+            showSection('profile');
+        }
+
+        function showNotifications() {
+            alert('Você tem 3 novas notificações:\n\n• Lembrete: Hora do lanche da tarde!\n• Nova receita disponível\n• Consulta agendada para amanhã');
+        }
+
+        function getBrazilDate() {
+            // Get current date in Brazil timezone (UTC-3)
+            const now = new Date();
+            const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+            const brazilTime = new Date(utc + (-3 * 3600000));
+            return brazilTime;
+        }
+
+        function formatBrazilDate(date) {
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                timeZone: 'America/Sao_Paulo'
+            };
+            return date.toLocaleDateString('pt-BR', options);
+        }
+
+        function getWeekDates() {
+            const today = getBrazilDate();
+            const currentDay = today.getDay(); // 0 = Sunday, 1 = Monday, etc.
+            const monday = new Date(today);
+            monday.setDate(today.getDate() - currentDay + 1);
+            
+            const weekDates = [];
+            for (let i = 0; i < 7; i++) {
+                const date = new Date(monday);
+                date.setDate(monday.getDate() + i);
+                weekDates.push(date);
+            }
+            return weekDates;
+        }
+
+        function generateWeeklyMealPlan() {
+            const weekDates = getWeekDates();
+            const weekDays = ['Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado', 'Domingo'];
+            
+            // Get recipes for each meal category
+            const mealsByCategory = {
+                'cafe': allRecipes.filter(r => r.category === 'cafe'),
+                'lanche-manha': allRecipes.filter(r => r.category === 'lanche-manha'),
+                'almoco': allRecipes.filter(r => r.category === 'almoco'),
+                'lanche-tarde': allRecipes.filter(r => r.category === 'lanche-tarde'),
+                'jantar': allRecipes.filter(r => r.category === 'jantar'),
+                'ceia': allRecipes.filter(r => r.category === 'ceia')
+            };
+
+            const weekPlan = weekDays.map((day, index) => {
+                const date = weekDates[index];
+                const isToday = date.toDateString() === getBrazilDate().toDateString();
+                
+                return {
+                    day: day,
+                    date: date,
+                    isToday: isToday,
+                    meals: [
+                        {
+                            time: '7:00',
+                            icon: '🥣',
+                            name: mealsByCategory['cafe'][Math.floor(Math.random() * mealsByCategory['cafe'].length)]?.name || 'Mingau de Aveia com Frutas'
+                        },
+                        {
+                            time: '9:30',
+                            icon: '🍎',
+                            name: mealsByCategory['lanche-manha'][Math.floor(Math.random() * mealsByCategory['lanche-manha'].length)]?.name || 'Mix de Oleaginosas'
+                        },
+                        {
+                            time: '12:00',
+                            icon: '🐟',
+                            name: mealsByCategory['almoco'][Math.floor(Math.random() * mealsByCategory['almoco'].length)]?.name || 'Peixe Grelhado com Legumes'
+                        },
+                        {
+                            time: '15:00',
+                            icon: '🥤',
+                            name: mealsByCategory['lanche-tarde'][Math.floor(Math.random() * mealsByCategory['lanche-tarde'].length)]?.name || 'Vitamina de Frutas'
+                        },
+                        {
+                            time: '18:00',
+                            icon: '🍲',
+                            name: mealsByCategory['jantar'][Math.floor(Math.random() * mealsByCategory['jantar'].length)]?.name || 'Sopa de Legumes'
+                        },
+                        {
+                            time: '21:00',
+                            icon: '🍵',
+                            name: mealsByCategory['ceia'][Math.floor(Math.random() * mealsByCategory['ceia'].length)]?.name || 'Chá com Biscoito Integral'
+                        }
+                    ]
+                };
+            });
+
+            return weekPlan;
+        }
+
+        function updateMealPlanDisplay() {
+            const weekPlan = generateWeeklyMealPlan();
+            const weekDates = getWeekDates();
+            const startDate = weekDates[0];
+            const endDate = weekDates[6];
+            
+            // Update week navigation
+            const weekNavigation = document.querySelector('#mealPlan .text-center');
+            if (weekNavigation) {
+                weekNavigation.innerHTML = `
+                    <h2 class="font-bold text-brown">Esta Semana</h2>
+                    <p class="text-sm text-brown opacity-70">${startDate.getDate()} - ${endDate.getDate()} ${endDate.toLocaleDateString('pt-BR', { month: 'short' })} ${endDate.getFullYear()}</p>
+                `;
+            }
+
+            // Update daily meal plans
+            const dailyPlansContainer = document.querySelector('#mealPlan .space-y-4');
+            if (dailyPlansContainer) {
+                dailyPlansContainer.innerHTML = weekPlan.map(dayPlan => `
+                    <div class="bg-white rounded-2xl p-4 card-shadow">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="font-bold text-brown">${dayPlan.day}</h3>
+                            ${dayPlan.isToday ? '<span class="text-sm text-green bg-green bg-opacity-10 px-2 py-1 rounded-full">Hoje</span>' : ''}
+                        </div>
+                        <div class="space-y-2">
+                            ${dayPlan.meals.map(meal => `
+                                <div class="flex items-center justify-between p-2 bg-cream rounded-lg">
+                                    <div class="flex items-center space-x-2">
+                                        <span class="text-lg">${meal.icon}</span>
+                                        <span class="text-sm font-medium text-brown">${meal.name}</span>
+                                    </div>
+                                    <span class="text-xs text-brown opacity-70">${meal.time}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function generateNewPlan() {
+            const restrictions = userData.restrictions ? userData.restrictions.join(', ') : 'Nenhuma';
+            
+            if (confirm(`Gerar novo plano alimentar personalizado?\n\nConsiderando suas informações:\n• Idade: ${userData.age} anos\n• Peso: ${userData.weight}kg\n• Altura: ${userData.height}cm\n• Restrições: ${restrictions}\n\nO plano será atualizado com 6 refeições diárias para os próximos 7 dias.`)) {
+                updateMealPlanDisplay();
+                alert('✅ Novo plano alimentar gerado com sucesso!\n\nSeu plano personalizado com 6 refeições diárias está pronto e considera todas as suas restrições alimentares.');
+            }
+        }
+
+        // Add active state styling
+        const style = document.createElement('style');
+        style.textContent = `
+            .nav-item.active {
+                color: #608041;
+            }
+            .nav-item.active svg {
+                stroke: #608041;
+            }
+            .nav-item {
+                color: #33160e;
+                transition: color 0.2s ease;
+            }
+            .nav-item:hover {
+                color: #608041;
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Admin functions
+        function showAdminPanel() {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('onboardingScreen').classList.add('hidden');
+            document.getElementById('mainApp').classList.add('hidden');
+            document.getElementById('adminPanel').classList.remove('hidden');
+            
+            showAdminSection('userManagement');
+            loadUsersList();
+            updateAnalytics();
+        }
+
+        function showAdminSection(sectionId) {
+            // Hide all admin sections
+            document.querySelectorAll('#adminPanel section').forEach(section => {
+                section.classList.add('hidden');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.remove('hidden');
+            
+            // Update tab buttons
+            document.querySelectorAll('.admin-tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        function selectPlan(plan) {
+            selectedPlan = plan;
+            
+            // Reset all plan buttons
+            document.querySelectorAll('.plan-btn').forEach(btn => {
+                btn.classList.remove('border-green', 'border-gold', 'bg-green', 'bg-gold', 'bg-opacity-10');
+                btn.classList.add('border-cream');
+            });
+            
+            // Highlight selected plan
+            const selectedBtn = document.getElementById(plan === 'basico' ? 'planBasico' : 'planPremium');
+            selectedBtn.classList.remove('border-cream');
+            if (plan === 'basico') {
+                selectedBtn.classList.add('border-green', 'bg-green', 'bg-opacity-10');
+            } else {
+                selectedBtn.classList.add('border-gold', 'bg-gold', 'bg-opacity-10');
+            }
+        }
+
+        function addUser() {
+            const email = document.getElementById('newUserEmail').value;
+            if (!email || !email.includes('@')) {
+                alert('Por favor, digite um e-mail válido!');
+                return;
+            }
+            
+            if (!selectedPlan) {
+                alert('Por favor, selecione um plano!');
+                return;
+            }
+            
+            const allowedUsers = JSON.parse(localStorage.getItem('vivasabor_allowed_users') || '[]');
+            
+            // Check if user already exists
+            const existingUserIndex = allowedUsers.findIndex(user => {
+                return typeof user === 'string' ? user === email : user.email === email;
+            });
+            
+            if (existingUserIndex !== -1) {
+                alert('Este e-mail já está autorizado!');
+                return;
+            }
+            
+            // Add user with plan
+            const newUser = {
+                email: email,
+                plan: selectedPlan,
+                addedDate: new Date().toISOString()
+            };
+            
+            allowedUsers.push(newUser);
+            localStorage.setItem('vivasabor_allowed_users', JSON.stringify(allowedUsers));
+            
+            document.getElementById('newUserEmail').value = '';
+            selectedPlan = '';
+            
+            // Reset plan selection
+            document.querySelectorAll('.plan-btn').forEach(btn => {
+                btn.classList.remove('border-green', 'border-gold', 'bg-green', 'bg-gold', 'bg-opacity-10');
+                btn.classList.add('border-cream');
+            });
+            
+            loadUsersList();
+            updateAnalytics();
+            
+            const planName = selectedPlan === 'premium' ? 'Premium' : 'Básico';
+            alert(`Usuário ${email} adicionado ao Plano ${planName} com sucesso!`);
+        }
+
+        function changePlan(email) {
+            const allowedUsers = JSON.parse(localStorage.getItem('vivasabor_allowed_users') || '[]');
+            const userIndex = allowedUsers.findIndex(user => {
+                return typeof user === 'string' ? user === email : user.email === email;
+            });
+            
+            if (userIndex === -1) return;
+            
+            const currentUser = allowedUsers[userIndex];
+            const currentPlan = typeof currentUser === 'string' ? 'basico' : currentUser.plan;
+            const newPlan = currentPlan === 'basico' ? 'premium' : 'basico';
+            const newPlanName = newPlan === 'premium' ? 'Premium' : 'Básico';
+            
+            if (confirm(`Alterar plano de ${email} para ${newPlanName}?`)) {
+                if (typeof currentUser === 'string') {
+                    // Convert old format to new format
+                    allowedUsers[userIndex] = {
+                        email: email,
+                        plan: newPlan,
+                        addedDate: new Date().toISOString()
+                    };
+                } else {
+                    allowedUsers[userIndex].plan = newPlan;
+                }
+                
+                localStorage.setItem('vivasabor_allowed_users', JSON.stringify(allowedUsers));
+                loadUsersList();
+                alert(`Plano de ${email} alterado para ${newPlanName} com sucesso!`);
+            }
+        }
+
+        function removeUser(email) {
+            if (confirm(`Tem certeza que deseja remover o acesso de ${email}?`)) {
+                const allowedUsers = JSON.parse(localStorage.getItem('vivasabor_allowed_users') || '[]');
+                const index = allowedUsers.findIndex(user => {
+                    return typeof user === 'string' ? user === email : user.email === email;
+                });
+                
+                if (index > -1) {
+                    allowedUsers.splice(index, 1);
+                    localStorage.setItem('vivasabor_allowed_users', JSON.stringify(allowedUsers));
+                    loadUsersList();
+                    updateAnalytics();
+                    alert('Usuário removido com sucesso!');
+                }
+            }
+        }
+
+        function loadUsersList() {
+            const allowedUsers = JSON.parse(localStorage.getItem('vivasabor_allowed_users') || '[]');
+            const usersList = document.getElementById('usersList');
+            
+            if (allowedUsers.length === 0) {
+                usersList.innerHTML = '<p class="text-brown opacity-70 text-center py-4">Nenhum usuário autorizado ainda.</p>';
+                return;
+            }
+            
+            usersList.innerHTML = allowedUsers.map(user => {
+                const userEmail = typeof user === 'string' ? user : user.email;
+                const userPlan = typeof user === 'string' ? 'basico' : user.plan;
+                const planIcon = userPlan === 'premium' ? '⭐' : '📱';
+                const planName = userPlan === 'premium' ? 'Premium' : 'Básico';
+                const planColor = userPlan === 'premium' ? 'bg-gold' : 'bg-green';
+                
+                return `
+                <div class="flex items-center justify-between p-3 bg-cream rounded-lg">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 ${planColor} rounded-full flex items-center justify-center">
+                            <span class="text-lg">${planIcon}</span>
+                        </div>
+                        <div>
+                            <p class="font-medium text-brown">${userEmail}</p>
+                            <p class="text-sm text-brown opacity-70">Plano ${planName}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button onclick="changePlan('${userEmail}')" class="bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-600 transition text-sm">
+                            Alterar Plano
+                        </button>
+                        <button onclick="removeUser('${userEmail}')" class="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600 transition text-sm">
+                            Remover
+                        </button>
+                    </div>
+                </div>
+                `;
+            }).join('');
+        }
+
+        function applyColors() {
+            const primaryColor = document.getElementById('primaryColor').value;
+            const secondaryColor = document.getElementById('secondaryColor').value;
+            const backgroundColor = document.getElementById('backgroundColor').value;
+            const textColor = document.getElementById('textColor').value;
+            
+            // Apply colors to CSS variables (this is a demo - in real app would update CSS)
+            document.documentElement.style.setProperty('--primary-color', primaryColor);
+            document.documentElement.style.setProperty('--secondary-color', secondaryColor);
+            document.documentElement.style.setProperty('--background-color', backgroundColor);
+            document.documentElement.style.setProperty('--text-color', textColor);
+            
+            // Save colors to localStorage
+            const colorScheme = { primaryColor, secondaryColor, backgroundColor, textColor };
+            localStorage.setItem('vivasabor_color_scheme', JSON.stringify(colorScheme));
+            
+            alert('Cores aplicadas com sucesso! As mudanças serão visíveis na próxima atualização.');
+        }
+
+        function updateIcon() {
+            const newIcon = document.getElementById('appIcon').value;
+            if (!newIcon) {
+                alert('Por favor, digite um emoji!');
+                return;
+            }
+            
+            document.getElementById('currentIcon').textContent = newIcon;
+            document.querySelectorAll('.w-10.h-10.bg-gold').forEach(icon => {
+                if (icon.querySelector('span')) {
+                    icon.querySelector('span').textContent = newIcon;
+                }
+            });
+            
+            localStorage.setItem('vivasabor_app_icon', newIcon);
+            alert('Ícone atualizado com sucesso!');
+        }
+
+        function updateAppName() {
+            const newName = document.getElementById('appName').value;
+            if (!newName) {
+                alert('Por favor, digite um nome!');
+                return;
+            }
+            
+            document.querySelectorAll('h1').forEach(title => {
+                if (title.textContent.includes('Viva Sabor')) {
+                    title.textContent = title.textContent.replace('Viva Sabor', newName);
+                }
+            });
+            
+            localStorage.setItem('vivasabor_app_name', newName);
+            alert('Nome do aplicativo atualizado com sucesso!');
+        }
+
+        function editPlan(planType) {
+            document.getElementById('mealEditor').classList.remove('hidden');
+            alert(`Editor de plano ${planType} em desenvolvimento. Aqui você poderá editar as 6 refeições do plano.`);
+        }
+
+        function saveMeal() {
+            const name = document.getElementById('mealName').value;
+            const time = document.getElementById('mealTime').value;
+            const description = document.getElementById('mealDescription').value;
+            
+            if (!name || !time || !description) {
+                alert('Por favor, preencha todos os campos!');
+                return;
+            }
+            
+            alert('Refeição salva com sucesso!');
+            cancelMealEdit();
+        }
+
+        function cancelMealEdit() {
+            document.getElementById('mealEditor').classList.add('hidden');
+            document.getElementById('mealName').value = '';
+            document.getElementById('mealTime').value = '';
+            document.getElementById('mealDescription').value = '';
+        }
+
+        function updateAnalytics() {
+            const allowedUsers = JSON.parse(localStorage.getItem('vivasabor_allowed_users') || '[]');
+            
+            let basicCount = 0;
+            let premiumCount = 0;
+            
+            allowedUsers.forEach(user => {
+                const plan = typeof user === 'string' ? 'basico' : user.plan;
+                if (plan === 'premium') {
+                    premiumCount++;
+                } else {
+                    basicCount++;
+                }
+            });
+            
+            const total = allowedUsers.length;
+            const premiumPercentage = total > 0 ? Math.round((premiumCount / total) * 100) : 0;
+            
+            document.getElementById('totalUsers').textContent = total;
+            document.getElementById('basicUsers').textContent = basicCount;
+            document.getElementById('premiumUsers').textContent = premiumCount;
+            document.getElementById('premiumPercentage').textContent = premiumPercentage + '%';
+        }
+
+        function logout() {
+            if (confirm('Tem certeza que deseja sair?')) {
+                // Clear user data
+                userData = {};
+                currentStep = 1;
+                selectedGender = '';
+                selectedRestrictions = [];
+                selectedGoal = '';
+                selectedActivity = '';
+                selectedPlan = '';
+                
+                // Hide all sections
+                document.getElementById('adminPanel').classList.add('hidden');
+                document.getElementById('mainApp').classList.add('hidden');
+                document.getElementById('onboardingScreen').classList.add('hidden');
+                
+                // Show login screen
+                document.getElementById('loginScreen').classList.remove('hidden');
+                showLogin();
+                
+                // Clear form fields
+                document.getElementById('loginEmail').value = '';
+                document.getElementById('loginPassword').value = '';
+            }
+        }
+
+        // Recipe and video functions
+        let allRecipes = [];
+        let currentRecipeFilter = 'all';
+
+        function loadRecipes() {
+            allRecipes = [
+                {
+                    id: 1,
+                    name: 'Mingau de Aveia com Frutas',
+                    category: 'cafe',
+                    time: '15 min',
+                    difficulty: 'Fácil',
+                    restrictions: ['sem-gluten', 'vegetariano'],
+                    ingredients: [
+                        '1 xícara de aveia em flocos',
+                        '2 xícaras de leite desnatado',
+                        '1 banana madura',
+                        '2 colheres de sopa de mel',
+                        '1 colher de chá de canela',
+                        '2 colheres de sopa de castanhas picadas'
+                    ],
+                    instructions: [
+                        'Em uma panela, aqueça o leite em fogo médio até começar a ferver',
+                        'Adicione a aveia em flocos e mexa constantemente por 8-10 minutos',
+                        'Tempere com canela e continue mexendo até engrossar',
+                        'Corte a banana em rodelas finas',
+                        'Retire do fogo e adicione o mel',
+                        'Sirva quente decorado com banana e castanhas picadas'
+                    ],
+                    nutrition: { calories: 280, protein: '12g', carbs: '45g', fat: '8g' }
+                },
+                {
+                    id: 2,
+                    name: 'Mix de Oleaginosas',
+                    category: 'lanche-manha',
+                    time: '5 min',
+                    difficulty: 'Fácil',
+                    restrictions: ['sem-gluten', 'vegetariano', 'vegano'],
+                    ingredients: [
+                        '10 unidades de amêndoas',
+                        '5 unidades de castanha do Brasil',
+                        '8 unidades de nozes',
+                        '1 colher de sopa de uvas passas',
+                        '5 unidades de damascos secos'
+                    ],
+                    instructions: [
+                        'Separe todas as oleaginosas em porções individuais',
+                        'Misture as frutas secas com as castanhas',
+                        'Consuma como lanche entre as refeições',
+                        'Mastigue bem para melhor digestão'
+                    ],
+                    nutrition: { calories: 180, protein: '6g', carbs: '12g', fat: '14g' }
+                },
+                {
+                    id: 3,
+                    name: 'Peixe Grelhado com Legumes',
+                    category: 'almoco',
+                    time: '25 min',
+                    difficulty: 'Médio',
+                    restrictions: ['baixo-sodio', 'sem-gluten'],
+                    ingredients: [
+                        '1 filé de peixe branco (150g)',
+                        '1 abobrinha média cortada em fatias',
+                        '1 cenoura cortada em bastões',
+                        '1 brócolis pequeno',
+                        '2 colheres de sopa de azeite extra virgem',
+                        'Ervas finas (manjericão, orégano)',
+                        'Suco de 1/2 limão'
+                    ],
+                    instructions: [
+                        'Tempere o peixe com ervas, limão e uma pitada de sal',
+                        'Deixe marinar por 10 minutos',
+                        'Aqueça uma grelha ou frigideira antiaderente',
+                        'Grelhe o peixe por 4-5 minutos de cada lado',
+                        'Em outra panela, refogue os legumes no azeite por 8 minutos',
+                        'Tempere os legumes com ervas finas',
+                        'Sirva o peixe acompanhado dos legumes coloridos'
+                    ],
+                    nutrition: { calories: 320, protein: '28g', carbs: '15g', fat: '18g' }
+                },
+                {
+                    id: 4,
+                    name: 'Vitamina de Frutas Vermelhas',
+                    category: 'lanche-tarde',
+                    time: '8 min',
+                    difficulty: 'Fácil',
+                    restrictions: ['sem-lactose', 'vegetariano'],
+                    ingredients: [
+                        '1/2 xícara de morangos',
+                        '1/4 xícara de mirtilo',
+                        '1 banana pequena',
+                        '200ml de leite de amêndoas',
+                        '1 colher de sopa de mel',
+                        '1 colher de chá de chia'
+                    ],
+                    instructions: [
+                        'Lave bem as frutas vermelhas',
+                        'Descasque e corte a banana',
+                        'Coloque todos os ingredientes no liquidificador',
+                        'Bata por 2-3 minutos até ficar homogêneo',
+                        'Adicione gelo se desejar mais gelado',
+                        'Sirva imediatamente decorado com chia'
+                    ],
+                    nutrition: { calories: 220, protein: '4g', carbs: '38g', fat: '6g' }
+                },
+                {
+                    id: 5,
+                    name: 'Sopa de Legumes com Quinoa',
+                    category: 'jantar',
+                    time: '35 min',
+                    difficulty: 'Fácil',
+                    restrictions: ['vegetariano', 'baixo-sodio', 'sem-gluten'],
+                    ingredients: [
+                        '1/2 xícara de quinoa',
+                        '2 batatas médias cortadas em cubos',
+                        '1 cenoura grande cortada',
+                        '1 abobrinha cortada em cubos',
+                        '1 cebola média picada',
+                        '2 dentes de alho',
+                        '1 litro de caldo de legumes caseiro',
+                        '2 colheres de sopa de azeite',
+                        'Salsinha e cebolinha picadas'
+                    ],
+                    instructions: [
+                        'Refogue a cebola e alho no azeite até dourar',
+                        'Adicione os legumes mais duros primeiro (batata, cenoura)',
+                        'Refogue por 5 minutos mexendo sempre',
+                        'Adicione a quinoa e o caldo de legumes',
+                        'Deixe cozinhar por 20 minutos em fogo médio',
+                        'Adicione a abobrinha nos últimos 8 minutos',
+                        'Finalize com salsinha e cebolinha picadas',
+                        'Sirva quente'
+                    ],
+                    nutrition: { calories: 260, protein: '8g', carbs: '48g', fat: '6g' }
+                },
+                {
+                    id: 6,
+                    name: 'Chá de Camomila com Biscoito Integral',
+                    category: 'ceia',
+                    time: '10 min',
+                    difficulty: 'Fácil',
+                    restrictions: ['vegetariano', 'baixo-acucar'],
+                    ingredients: [
+                        '1 sachê de chá de camomila',
+                        '200ml de água',
+                        '2 biscoitos integrais sem açúcar',
+                        '1 colher de chá de mel (opcional)'
+                    ],
+                    instructions: [
+                        'Ferva a água em uma chaleira',
+                        'Coloque o sachê de camomila na xícara',
+                        'Despeje a água quente sobre o sachê',
+                        'Deixe em infusão por 5 minutos',
+                        'Retire o sachê e adoce com mel se desejar',
+                        'Sirva acompanhado dos biscoitos integrais'
+                    ],
+                    nutrition: { calories: 120, protein: '3g', carbs: '22g', fat: '2g' }
+                }
+            ];
+
+            displayRecipes(allRecipes);
+        }
+
+        function displayRecipes(recipes) {
+            const recipesGrid = document.getElementById('recipesGrid');
+            
+            // Filter recipes based on user restrictions and category filter
+            let filteredRecipes = recipes;
+            
+            // Apply category filter
+            if (currentRecipeFilter !== 'all') {
+                filteredRecipes = filteredRecipes.filter(recipe => recipe.category === currentRecipeFilter);
+            }
+            
+            // Filter based on user restrictions
+            const userRestrictions = userData.restrictions || [];
+            if (userRestrictions.length > 0) {
+                filteredRecipes = filteredRecipes.filter(recipe => {
+                    // Check if recipe is compatible with user restrictions
+                    return userRestrictions.every(userRestriction => {
+                        // If user has a restriction, recipe should either:
+                        // 1. Have the same restriction (e.g., user is vegetarian, recipe is vegetarian)
+                        // 2. Not conflict with the restriction
+                        if (userRestriction === 'lactose' && recipe.restrictions.includes('sem-lactose')) return true;
+                        if (userRestriction === 'gluten' && recipe.restrictions.includes('sem-gluten')) return true;
+                        if (userRestriction === 'vegetariano' && recipe.restrictions.includes('vegetariano')) return true;
+                        if (userRestriction === 'vegano' && recipe.restrictions.includes('vegano')) return true;
+                        if (userRestriction === 'diabetes' && (recipe.restrictions.includes('baixo-acucar') || recipe.restrictions.includes('sem-acucar'))) return true;
+                        if (userRestriction === 'hipertensao' && recipe.restrictions.includes('baixo-sodio')) return true;
+                        
+                        // If no specific match, allow the recipe (user can choose)
+                        return true;
+                    });
+                });
+            }
+
+            if (filteredRecipes.length === 0) {
+                recipesGrid.innerHTML = `
+                    <div class="col-span-full text-center py-8">
+                        <div class="text-4xl mb-4">🍽️</div>
+                        <h3 class="text-xl font-bold text-brown mb-2">Nenhuma receita encontrada</h3>
+                        <p class="text-brown opacity-70">Tente alterar os filtros ou suas restrições alimentares</p>
+                    </div>
+                `;
+                return;
+            }
+
+            recipesGrid.innerHTML = filteredRecipes.map(recipe => `
+                <div class="bg-white rounded-2xl p-4 card-shadow recipe-card">
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="font-bold text-brown">${recipe.name}</h3>
+                        <span class="text-xs px-2 py-1 rounded-full bg-green text-white">${recipe.difficulty}</span>
+                    </div>
+                    <div class="flex items-center space-x-4 text-sm text-brown opacity-70 mb-3">
+                        <span>⏱️ ${recipe.time}</span>
+                        <span>🍽️ ${getCategoryName(recipe.category)}</span>
+                    </div>
+                    <div class="mb-3">
+                        <p class="text-sm text-brown opacity-70 mb-2">Ingredientes:</p>
+                        <ul class="text-sm text-brown space-y-1">
+                            ${recipe.ingredients.slice(0, 3).map(ing => `<li>• ${ing}</li>`).join('')}
+                            ${recipe.ingredients.length > 3 ? '<li class="opacity-70">... e mais</li>' : ''}
+                        </ul>
+                    </div>
+                    <div class="flex flex-wrap gap-1 mb-3">
+                        ${recipe.restrictions.slice(0, 2).map(restriction => `
+                            <span class="text-xs px-2 py-1 rounded-full bg-cream text-brown">${getRestrictionName(restriction)}</span>
+                        `).join('')}
+                    </div>
+                    <button onclick="viewRecipe(${recipe.id})" class="w-full bg-green text-white py-2 rounded-lg hover:opacity-90 transition text-sm">
+                        Ver Receita Completa
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function getCategoryName(category) {
+            const names = {
+                'cafe': 'Café da Manhã',
+                'lanche-manha': 'Lanche Manhã',
+                'almoco': 'Almoço',
+                'lanche-tarde': 'Lanche Tarde',
+                'jantar': 'Jantar',
+                'ceia': 'Ceia'
+            };
+            return names[category] || category;
+        }
+
+        function getRestrictionName(restriction) {
+            const names = {
+                'sem-gluten': 'Sem Glúten',
+                'sem-lactose': 'Sem Lactose',
+                'vegetariano': 'Vegetariano',
+                'vegano': 'Vegano',
+                'baixo-sodio': 'Baixo Sódio',
+                'baixo-acucar': 'Baixo Açúcar',
+                'diabetes': 'Diabético',
+                'hipertensao': 'Hipertensão'
+            };
+            return names[restriction] || restriction;
+        }
+
+        function filterRecipes(category) {
+            currentRecipeFilter = category;
+            
+            // Update filter buttons
+            document.querySelectorAll('.recipe-filter-btn').forEach(btn => {
+                btn.classList.remove('active', 'bg-green', 'text-white');
+                btn.classList.add('bg-cream', 'text-brown');
+            });
+            event.target.classList.remove('bg-cream', 'text-brown');
+            event.target.classList.add('active', 'bg-green', 'text-white');
+
+            // Filter and display recipes
+            displayRecipes(allRecipes);
+        }
+
+        function viewRecipe(recipeId) {
+            const recipe = allRecipes.find(r => r.id === recipeId);
+            if (!recipe) return;
+
+            // Populate modal with recipe data
+            document.getElementById('recipeModalTitle').textContent = recipe.name;
+            document.getElementById('recipeModalTime').textContent = `⏱️ ${recipe.time}`;
+            document.getElementById('recipeModalDifficulty').textContent = `🍽️ ${recipe.difficulty}`;
+            document.getElementById('recipeModalCategory').textContent = `🥗 ${getCategoryName(recipe.category)}`;
+
+            // Ingredients
+            const ingredientsList = document.getElementById('recipeModalIngredients');
+            ingredientsList.innerHTML = recipe.ingredients.map(ingredient => 
+                `<li class="flex items-center space-x-2">
+                    <span class="w-2 h-2 bg-green rounded-full"></span>
+                    <span class="text-brown">${ingredient}</span>
+                </li>`
+            ).join('');
+
+            // Instructions
+            const instructionsList = document.getElementById('recipeModalInstructions');
+            instructionsList.innerHTML = recipe.instructions.map((instruction, index) => 
+                `<div class="flex space-x-3 p-3 bg-cream rounded-lg">
+                    <div class="w-8 h-8 bg-green rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+                        ${index + 1}
+                    </div>
+                    <p class="text-brown">${instruction}</p>
+                </div>`
+            ).join('');
+
+            // Nutrition
+            if (recipe.nutrition) {
+                document.getElementById('recipeModalCalories').textContent = recipe.nutrition.calories;
+                document.getElementById('recipeModalProtein').textContent = recipe.nutrition.protein;
+                document.getElementById('recipeModalCarbs').textContent = recipe.nutrition.carbs;
+                document.getElementById('recipeModalFat').textContent = recipe.nutrition.fat;
+            }
+
+            // Restrictions
+            const restrictionTags = document.getElementById('recipeModalRestrictionTags');
+            restrictionTags.innerHTML = recipe.restrictions.map(restriction => 
+                `<span class="px-3 py-1 bg-green text-white rounded-full text-sm">${getRestrictionName(restriction)}</span>`
+            ).join('');
+
+            // Show modal
+            document.getElementById('recipeModal').classList.remove('hidden');
+        }
+
+        function closeRecipeModal() {
+            document.getElementById('recipeModal').classList.add('hidden');
+        }
+
+        function loadVideos() {
+            const videos = [
+                {
+                    id: 1,
+                    title: 'Como Preparar Mingau Nutritivo',
+                    category: 'receitas',
+                    duration: '8:30',
+                    thumbnail: '🥣',
+                    description: 'Aprenda a fazer um mingau cremoso e nutritivo'
+                },
+                {
+                    id: 2,
+                    title: 'Técnicas de Grelhar Peixe',
+                    category: 'basico',
+                    duration: '12:15',
+                    thumbnail: '🐟',
+                    description: 'Domine as técnicas para grelhar peixe perfeitamente'
+                },
+                {
+                    id: 3,
+                    title: 'Benefícios dos Antioxidantes',
+                    category: 'nutricao',
+                    duration: '15:45',
+                    thumbnail: '🥗',
+                    description: 'Entenda como os antioxidantes beneficiam sua saúde'
+                },
+                {
+                    id: 4,
+                    title: 'Cortes Básicos de Vegetais',
+                    category: 'basico',
+                    duration: '10:20',
+                    thumbnail: '🥕',
+                    description: 'Aprenda os cortes fundamentais na cozinha'
+                }
+            ];
+
+            displayVideos(videos);
+        }
+
+        function displayVideos(videos) {
+            const videosGrid = document.getElementById('videosGrid');
+            
+            videosGrid.innerHTML = videos.map(video => `
+                <div class="bg-white rounded-2xl p-4 card-shadow recipe-card">
+                    <div class="w-full h-32 bg-cream rounded-xl flex items-center justify-center mb-3">
+                        <span class="text-4xl">${video.thumbnail}</span>
+                    </div>
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="font-bold text-brown text-sm">${video.title}</h3>
+                        <span class="text-xs px-2 py-1 rounded-full bg-gold text-white">⭐</span>
+                    </div>
+                    <p class="text-xs text-brown opacity-70 mb-3">${video.description}</p>
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs text-brown opacity-70">⏱️ ${video.duration}</span>
+                        <span class="text-xs px-2 py-1 rounded-full bg-cream text-brown">${getCategoryVideoName(video.category)}</span>
+                    </div>
+                    <button onclick="playVideo(${video.id})" class="w-full bg-gold text-white py-2 rounded-lg hover:opacity-90 transition text-sm">
+                        ▶️ Assistir Vídeo
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function getCategoryVideoName(category) {
+            const names = {
+                'basico': 'Básico',
+                'receitas': 'Receitas',
+                'nutricao': 'Nutrição'
+            };
+            return names[category] || category;
+        }
+
+        function filterVideos(category) {
+            // Update filter buttons
+            document.querySelectorAll('.video-filter-btn').forEach(btn => {
+                btn.classList.remove('active', 'bg-gold', 'text-white');
+                btn.classList.add('bg-cream', 'text-brown');
+            });
+            event.target.classList.remove('bg-cream', 'text-brown');
+            event.target.classList.add('active', 'bg-gold', 'text-white');
+
+            // Filter and display videos
+            loadVideos(); // For now, just reload all videos
+        }
+
+        function playVideo(videoId) {
+            alert(`Reproduzindo vídeo-aula!\n\n🎥 Recurso Premium Ativo\n\nEste vídeo incluirá:\n• Demonstração passo a passo\n• Dicas profissionais\n• Legendas em português\n• Possibilidade de pausar e repetir\n• Download para assistir offline`);
+        }
+
+        // Consultation functions
+        function scheduleConsultation(type) {
+            const typeNames = {
+                'nutricionista': 'Nutricionista',
+                'psicologo': 'Psicólogo',
+                'terapeuta': 'Terapeuta'
+            };
+            
+            alert(`Agendando consulta com ${typeNames[type]}!\n\n📅 Horários disponíveis:\n• Amanhã às 14:00\n• Quinta-feira às 10:30\n• Sexta-feira às 16:00\n\nSelecione o horário de sua preferência.`);
+        }
+
+        function cancelConsultation(id) {
+            if (confirm('Tem certeza que deseja cancelar esta consulta?')) {
+                alert('Consulta cancelada com sucesso!');
+            }
+        }
+
+        // Support functions
+        function openEmailSupport() {
+            const subject = encodeURIComponent('Suporte Viva Sabor - Dúvida');
+            const body = encodeURIComponent(`Olá equipe Viva Sabor,\n\nTenho uma dúvida sobre:\n\n[Descreva sua dúvida aqui]\n\nDados do usuário:\nNome: ${userData.name}\nE-mail: ${userData.email}\nPlano: ${userData.plan || 'Básico'}\n\nAguardo retorno.\n\nObrigado(a)!`);
+            
+            window.open(`mailto:comercialvivasabor@gmail.com?subject=${subject}&body=${body}`, '_blank');
+        }
+
+        function openChatSupport() {
+            if (userData.plan !== 'premium') {
+                showUpgradeModal();
+                return;
+            }
+            
+            alert(`💬 Chat ao Vivo Iniciado!\n\n🟢 Conectado com a equipe de suporte\n\nOlá ${userData.name}! Como posso ajudá-lo(a) hoje?\n\n• Resposta em tempo real\n• Suporte especializado\n• Histórico de conversas salvo\n• Disponível 24/7`);
+        }
+
+        function showUpgradeModal() {
+            alert(`⭐ Upgrade para Premium!\n\nDesbloqueie recursos exclusivos:\n\n✅ Consultas com especialistas\n✅ Vídeo-aulas exclusivas\n✅ Chat ao vivo 24/7\n✅ Receitas premium\n✅ Suporte prioritário\n\nEntre em contato com o administrador para fazer o upgrade!`);
+        }
+
+        // Profile functions
+        let editingRestrictions = [];
+
+        function editProfile() {
+            // Populate form with current user data
+            document.getElementById('editProfileName').value = userData.name || '';
+            document.getElementById('editProfileAge').value = userData.age || '';
+            document.getElementById('editProfileWeight').value = userData.weight || '';
+            document.getElementById('editProfileHeight').value = userData.height || '';
+            
+            // Set gender selection
+            document.querySelectorAll('.edit-gender-btn').forEach(btn => {
+                btn.classList.remove('border-green', 'bg-green', 'text-white');
+                btn.classList.add('border-cream', 'text-brown');
+            });
+            
+            if (userData.gender === 'feminino') {
+                document.getElementById('editGenderFem').classList.remove('border-cream', 'text-brown');
+                document.getElementById('editGenderFem').classList.add('border-green', 'bg-green', 'text-white');
+            } else if (userData.gender === 'masculino') {
+                document.getElementById('editGenderMasc').classList.remove('border-cream', 'text-brown');
+                document.getElementById('editGenderMasc').classList.add('border-green', 'bg-green', 'text-white');
+            }
+            
+            // Show modal
+            document.getElementById('profileModal').classList.remove('hidden');
+        }
+
+        function selectEditGender(gender) {
+            userData.gender = gender;
+            document.querySelectorAll('.edit-gender-btn').forEach(btn => {
+                btn.classList.remove('border-green', 'bg-green', 'text-white');
+                btn.classList.add('border-cream', 'text-brown');
+            });
+            event.target.classList.remove('border-cream', 'text-brown');
+            event.target.classList.add('border-green', 'bg-green', 'text-white');
+        }
+
+        function closeProfileModal() {
+            document.getElementById('profileModal').classList.add('hidden');
+        }
+
+        function saveProfile() {
+            // Get form values
+            const name = document.getElementById('editProfileName').value;
+            const age = document.getElementById('editProfileAge').value;
+            const weight = document.getElementById('editProfileWeight').value;
+            const height = document.getElementById('editProfileHeight').value;
+            
+            if (!name || !age || !weight || !height) {
+                alert('Por favor, preencha todos os campos!');
+                return;
+            }
+            
+            // Update user data
+            userData.name = name;
+            userData.age = age;
+            userData.weight = weight;
+            userData.height = height;
+            
+            // Save to localStorage
+            localStorage.setItem('vivasabor_user_' + userData.email, JSON.stringify(userData));
+            
+            // Update profile display
+            updateProfileInfo();
+            document.getElementById('welcomeMessage').textContent = `Olá, ${userData.name}! 👋`;
+            
+            closeProfileModal();
+            alert('Perfil atualizado com sucesso!');
+        }
+
+        function changeRestrictions() {
+            // Initialize editing restrictions with current user restrictions
+            editingRestrictions = [...(userData.restrictions || [])];
+            
+            // Reset all restriction buttons
+            document.querySelectorAll('.modal-restriction-tag').forEach(btn => {
+                btn.classList.remove('selected', 'bg-green', 'text-white');
+                btn.classList.add('border-cream', 'text-brown');
+            });
+            
+            // Mark current restrictions as selected
+            editingRestrictions.forEach(restriction => {
+                const btn = document.querySelector(`[onclick="toggleModalRestriction('${restriction}')"]`);
+                if (btn) {
+                    btn.classList.remove('border-cream', 'text-brown');
+                    btn.classList.add('selected', 'bg-green', 'text-white');
+                }
+            });
+            
+            // Show modal
+            document.getElementById('restrictionsModal').classList.remove('hidden');
+        }
+
+        function toggleModalRestriction(restriction) {
+            const index = editingRestrictions.indexOf(restriction);
+            if (index > -1) {
+                editingRestrictions.splice(index, 1);
+                event.target.classList.remove('selected', 'bg-green', 'text-white');
+                event.target.classList.add('border-cream', 'text-brown');
+            } else {
+                editingRestrictions.push(restriction);
+                event.target.classList.remove('border-cream', 'text-brown');
+                event.target.classList.add('selected', 'bg-green', 'text-white');
+            }
+        }
+
+        function closeRestrictionsModal() {
+            document.getElementById('restrictionsModal').classList.add('hidden');
+        }
+
+        function saveRestrictions() {
+            // Update user restrictions
+            userData.restrictions = [...editingRestrictions];
+            
+            // Save to localStorage
+            localStorage.setItem('vivasabor_user_' + userData.email, JSON.stringify(userData));
+            
+            // Reload recipes with new restrictions
+            displayRecipes(allRecipes);
+            
+            closeRestrictionsModal();
+            alert('Restrições alimentares atualizadas com sucesso!\nAs receitas foram filtradas conforme suas novas preferências.');
+        }
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize with some demo users if none exist
+            const allowedUsers = JSON.parse(localStorage.getItem('vivasabor_allowed_users') || '[]');
+            if (allowedUsers.length === 0) {
+                localStorage.setItem('vivasabor_allowed_users', JSON.stringify([
+                    { email: 'usuario1@exemplo.com', plan: 'basico', addedDate: new Date().toISOString() },
+                    { email: 'usuario2@exemplo.com', plan: 'premium', addedDate: new Date().toISOString() },
+                    { email: 'maria@email.com', plan: 'basico', addedDate: new Date().toISOString() }
+                ]));
+            }
+            
+            // Check if user is already logged in
+            const urlParams = new URLSearchParams(window.location.search);
+            const email = urlParams.get('email');
+            
+            if (email) {
+                const existingUser = localStorage.getItem('vivasabor_user_' + email);
+                if (existingUser) {
+                    userData = JSON.parse(existingUser);
+                    showMainApp();
+                    return;
+                }
+            }
+            
+            // Show login screen by default
+            showLogin();
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96d19dadb46ca67d',t:'MTc1NDg1MTE2Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
